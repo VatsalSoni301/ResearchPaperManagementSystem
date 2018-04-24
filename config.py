@@ -1,6 +1,6 @@
 
 MYSQL_DATABASE_USER = 'root'
-MYSQL_DATABASE_PASSWORD = 'root'
+MYSQL_DATABASE_PASSWORD = 'root@ldce'
 MYSQL_DATABASE_DB = 'paper_research'
 MYSQL_DATABASE_HOST = 'localhost'
 MAIL_SERVER='smtp.gmail.com'
