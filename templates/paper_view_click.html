@@ -1,0 +1,127 @@
+
+{% extends 'user_base.html' %}
+{% block body %}
+ 
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{% if mode =='Your Paper' %}
+					<a href="/your_paper">List Of Paper</a>/{{name}}
+				{% elif mode == 'Briefcase' %}
+					<a href="/briefcase">Bookmark</a>/{{name}}
+				{% elif mode == 'Search' %}
+					<a href="{{url_for('user_search',search=search)}}">Search</a>/{{name}}
+				{% elif mode=='issue' %}
+					<a href="/list_paper_comment">Browse</a>/<a href="{{url_for('user_issue_paper_list',i_id=i_id)}}">List Of Paper</a>/{{name}}
+				{% elif mode=='subject' %}
+					<a href="/list_paper_comment">Browse</a>/<a href="{{url_for('user_subject_paper_list',sub_id=sub_id)}}">List Of Paper</a>/{{name}}
+				{% elif mode=='CRC' %}
+					<a href="/user_crc">Submit CRC</a>/{{name}}
+				{% else %}
+					<a href="/list_paper_comment">List Of Paper</a>/<a href="{{url_for('user_summary_paper',p_id=p_id)}}">Summary Of Paper</a>/{{name}}
+				{% endif %}
+				
+				
+				</h2>
+		    </div>
+		
+	<div class="grid-form">
+ 		
+  <div class="grid-form1">
+	<form class="form-horizontal">
+  	       <h3>Research Paper</h3>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+								
+								 <div class="form-group mb-n">
+							<label class="col-md-2 control-label">Title</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{arr[1]}}">
+							</div>
+							</div> 
+							
+							<div class="form-group mb-n">
+							<label class="col-md-2 control-label">Track</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{track}}">
+							</div>
+							</div> 
+							
+							<div class="form-group mb-n">
+							<label class="col-md-2 control-label">Subject</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{sub}}">
+							</div>
+							</div> 
+								
+								
+									<div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Keyword</label>
+									<div class="col-sm-8">&nbsp
+										{% for x in keyw %}
+												<div class="checkbox-inline"><label><input type="checkbox" name="key" 
+												
+													checked
+												disabled > {{x['name']}}</label></div>
+										
+											{% endfor %}
+										
+										
+									</div>
+								</div>
+								</div>
+								<div class="form-group">
+									<label for="txtarea1" class="col-sm-2 control-label">Abstract</label>
+									<div class="col-md-8"><textarea cols="70" rows="10" readonly="">{{arr[2]}}</textarea></div>
+								</div>
+						
+					</div>
+		
+  <div class="panel-body">
+						
+						  <div class="form-group mb-n">
+							<label class="col-md-2 control-label">Document</label>
+							<div class="col-md-8">
+						
+							<a href="/static/Paper/{{arr[4]}}" class="btn-primary btn" target="_blank"> 
+							 Download
+							  </a> 
+							<button type="button" class="btn-primary btn" data-toggle="modal" data-target="#myModal">Preview</button>
+							<!-- <button class="btn-primary btn">Download</button> -->
+							</div>
+						</div> 
+						
+						
+	</div>
+	
+    </form>
+  </div>
+ 	</div>	
+	
+	
+	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Paper</h4>
+        </div>
+        <div class="modal-body" >
+			<div style="text-align: center;">
+				<iframe src="http://docs.google.com/gview?url=http://www.pdf995.com/samples/pdf.pdf&embedded=true" 
+style="width:500px; height:500px;" frameborder="0"></iframe> 
+</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	
+{% endblock %}
+

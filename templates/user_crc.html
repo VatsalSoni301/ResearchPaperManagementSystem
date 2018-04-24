@@ -1,0 +1,111 @@
+{% extends 'user_base.html' %}
+{% block head %}
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+table
+{	
+	text-align: center;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style>
+<script>
+function fun(abc)
+{
+	var id = abc.getAttribute('id');
+	$.post("/submit_crc",
+        {
+          pap:id
+        },
+		function(data,status){
+			 $('#successModal').modal('show');
+        }
+        );
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                    document.form1.submit();
+                }, 1000));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				
+				</h2>
+		    </div>
+
+		<div class="grid-form">
+ 		
+ <div class="grid-form1">
+	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+	<th style="text-align: center; width:10%">Sr.No</th>
+ 		<th style="text-align: center;">Papers</th>
+		<th style="text-align: center;">Submit</th>
+ 	</tr>
+	
+ 	{% for item in arry %}
+ 	<tr>
+	<td style="text-align: center;"></td>
+		<td>
+			<ul style="text-align:left;list-style: none;">
+				<li>
+					  <a href="{{ url_for('paper_view_click' , p_id=item['pap_id'],mode='CRC' ) }}"> Title:&nbsp {{item['topic']}}</a>
+				</li>
+				<li>Creation Date:&nbsp {{item['creation_date']}}</li>
+				<li>Last Modification Date:&nbsp {{item['last']}}</li>
+				<li>Status:&nbsp {{item['status']}}</li>
+			</ul>
+		</td>	
+		<td>
+			<a id="{{item['pap_id']}}" onclick="fun(this)" class="btn-primary btn">Submit CRC Copy</a>
+		</td>
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+<form action="{{url_for('temp_crc')}}" name="form1" method="POST">
+</form>
+  </div>
+
+ 	</div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Paper has been submitted successfully
+                </div>
+            </div>
+        </div>
+    </div>	
+{% endblock %}
+

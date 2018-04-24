@@ -1,0 +1,86 @@
+
+{% extends 'expert_base.html' %}
+{% block head %}
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+table
+{	
+	<!-- text-align: center; -->
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+	
+}
+tr td{
+	padding:10px; 
+		 	
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+
+</style>
+</head>
+{% endblock %}
+{% block body %}
+
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				
+				</h2>
+		    </div>
+				<!---->
+				
+					<div class="grid-form">
+ 		
+
+ <div class="grid-form1">
+	<form class="form-horizontal">
+  	       <h3>Reviewed Paper</h3>
+  	        
+	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+ 		<th style="text-align: center; width:10%">Sr.No</th>
+ 		<th style="text-align: center;">Papers</th>
+ 	</tr>
+	{% for item in arr %}
+ 	<tr>
+		<td style="text-align: center;"></td>
+		<td>
+			<ul style="text-align:left-right;list-style: none;">
+				<li>
+				<a href="{{ url_for('review_paper_1', p_id=item['p_id'],mode='Paper_Already_Reviewed' ) }}">Title:&nbsp {{item['title']}}</a>
+				</li>
+				<li>Keyword:&nbsp 
+				{% for item1 in key %}
+					{% if item1['id'] == item['id'] %}
+						{{item1['name']}}
+					{% endif %}
+				{% endfor %}
+				</li>
+				<li>Status:&nbsp {{item['stat']}}</li>
+			</ul>
+		</td>	
+ 	</tr>	
+{% endfor %}	
+ </table>
+			 
+    </form>
+  </div>
+
+ 	</div>
+				
+{% endblock %}
+

@@ -1,0 +1,175 @@
+{% extends 'admin_base.html' %}
+{% block head %}
+<head>
+<script>
+function add_data()
+{
+	
+	var fname=document.getElementById("fname1").value;
+	var mname=document.getElementById("mname1").value;
+	var lname=document.getElementById("lname1").value;
+	var designation=document.getElementById("designation1").value;
+	var description=document.getElementById("description1").value;
+	var pic=document.getElementById("file1").value;
+	var arr=pic.split(".");
+	var reg = /^[A-Za-z]+$/;
+	if(fname=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter FirstName"
+		$('#myModal11').modal('show');
+	}
+	else if(!fname.match(reg))
+	{
+		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
+		$('#myModal11').modal('show');
+	}
+	else if(mname=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter MiddleName"
+		$('#myModal11').modal('show');
+	}
+	else if(!mname.match(reg))
+	{
+		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
+		$('#myModal11').modal('show');
+	}
+	else if(lname=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter LastName"
+		$('#myModal11').modal('show');
+	}
+	else if(!lname.match(reg))
+	{
+		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
+		$('#myModal11').modal('show');
+	}
+	else if(designation=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Designation"
+		$('#myModal11').modal('show');
+	}
+	else if(!designation.match(reg))
+	{
+		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
+		$('#myModal11').modal('show');
+	}
+	else if(description=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Description"
+		$('#myModal11').modal('show');
+	}
+	else if(pic!='' && arr[1]!='jpg' && arr[1]!='jpeg' && arr[1]!='bmp' && arr[1]!='png')
+	{
+		document.getElementById("msg").innerHTML="Image must be in jpg/jpeg/bmp/png format"
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		document.getElementById("msg1").innerHTML="Data has been updated successfully"
+		$('#successModal').modal('show');
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+						 document.form1.submit();
+                }, 1500));
+            });
+        });
+</script>
+</head>
+ {% endblock %}
+{% block body %}
+ 
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				<a href="{{url_for('delete_editorial')}}">List Of Editorials</a>/{{name}}
+			
+				</h2>
+		    </div>
+			
+			<div class="validation-system">
+ 		
+ 		<div class="validation-form">
+ 	<!---->
+  	    
+        <form action="{{ url_for('edit_editorial_1') }}" method="POST" enctype="multipart/form-data" name="form1">
+         	<div class="vali-form">
+						  <input type="hidden" placeholder="FirstName" id="guest_id" name="guest_id" value="{{k[0]}}">
+            <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Firstname</label>
+              <input type="text" placeholder="FirstName" id="fname1" name="fname" value="{{k[1]}}">
+            </div>
+            <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Middlename</label>
+              <input type="text" placeholder="MiddleName" id="mname1" name="mname" value="{{k[2]}}">
+            </div>
+			 <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Lastname</label>
+              <input type="text" placeholder="LastName" id="lname1" name="lname" value="{{k[3]}}">
+            </div>
+           
+            </div>
+            <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Editorial Designation</label>
+              	<input type="text" class="col-md-8"  id="designation1" name="designation" value="{{k[6]}}" placeholder="Editorial Designation...">
+				
+            </div>
+			<div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Editorial Description</label>
+              	<textarea rows="7" class="col-md-8"  id="description1" name="desc" placeholder="Editorial Description...">{{k[4]}}</textarea>
+				
+            </div>
+			
+         	
+								
+								
+			<div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Profile Pic</label>
+              <input type="file" name="file" id="file1">
+            </div>
+			 
+			
+            <div class="col-md-12 form-group">
+              <input type="button" class="btn btn-primary" onclick="add_data()" value="Submit">
+              <button type="reset" class="btn btn-default">Reset</button>
+            </div>
+          <div class="clearfix"> </div>
+        </form>
+    
+ 	<!---->
+ </div>
+ 			<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="msg1"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+ {% endblock %}
+
+
+
+

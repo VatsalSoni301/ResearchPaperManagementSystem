@@ -1,0 +1,66 @@
+
+{% extends 'admin_base.html' %}
+	{% block body %}		
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{% if mode=="expert_details" %}
+				<a href="/allocation">Allocation Of Paper</a>/{{name}}
+				{% endif %}
+				</h2>
+		    </div>
+		<div class="validation-system">
+ 		
+ 		<div class="validation-form">
+ 	<!---->
+  	    
+        <form>
+         	<div class="vali-form">
+            <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Firstname</label>
+              <input type="text" placeholder="FirstName" readonly="" name="fname" value="{{k[1]}}">
+            </div>
+           
+			 <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Lastname</label>
+              <input type="text" placeholder="LastName" readonly="" name="lname" value="{{k[3]}}">
+            </div>
+           
+            </div>
+			<div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Email</label>
+              <input type="text" placeholder="Email" readonly="" name="email" value="{{k[5]}}">
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Mobile No</label>
+              <input type="text" placeholder="Mobile No" readonly="" name="mobile" value="{{k[4]}}">
+            </div>             
+
+			 
+            <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Skills</label>
+              <textarea  placeholder="Skills....." readonly="" name="skill" >{{k[9]}}</textarea>
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Total Experience</label>
+			  <input type="number" max="20" name="total_experience" readonly="" value="{{k[10]}}">
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Experience in words</label>
+              <textarea  placeholder="Experience......." readonly="" name="experience_in_words" >{{k[11]}}</textarea>
+            </div>
+			 
+            
+          <div class="clearfix"> </div>
+        </form>
+    
+ 	<!---->
+ </div>
+
+</div>		
+		
+		
+		
+{% endblock %}
+

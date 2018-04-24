@@ -1,0 +1,390 @@
+{% extends 'admin_base.html' %}
+{% block head %}
+<head>
+<script>
+function add234()
+{
+	var ann=document.getElementById("Aname1").value;
+	var relate=document.getElementById("relate1").value;
+	if(ann=='')
+	{
+		document.getElementById("msg").innerHTML="Please Write Announcements"
+		$('#myModal11').modal('show');
+	}
+	else{
+		
+			document.getElementById("msg11").innerHTML="Send Successfully"
+			$('#successModal1').modal('show');
+        
+	}
+}
+function abcde()
+{
+	var expert=document.getElementById("temp_1").value;
+	var user=document.getElementById("temp_2").value;
+	var announce=document.getElementById("temp_3").value;
+	var ee=expert.split(",");
+	var uu=user.split(",");
+	var okay=false;
+	var okay1=false;
+	
+	for(var i=0;i<ee.length;i++)
+	{
+		if(ee[i]!='###' && ee[i]!='')
+		{
+			okay=true;
+			break;
+		}
+	}
+	for(var i=0;i<uu.length;i++)
+	{
+		if(uu[i]!='###' && uu[i]!='')
+		{
+			okay1=true;
+			break;
+		}
+	}
+	
+	if(announce=='')
+	{
+		document.getElementById("msg").innerHTML="Please Write Announcements"
+		$('#myModal11').modal('show');
+	}
+	else if(okay==false && okay1==false){
+			document.getElementById("msg").innerHTML="Please select users or reviewers for sending mail"
+			$('#myModal11').modal('show');
+	}
+	else
+	{
+		document.getElementById("msg1").innerHTML="Send Successfully"
+		$('#successModal').modal('show');
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+					document.form11.submit();
+                }, 1000));
+            });
+        });
+$(function () {
+            $('#successModal1').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+					document.formx.submit();
+                }, 1000));
+            });
+        });
+</script>
+<script type="text/javascript">
+var arr=[];
+var i=0;
+function add()
+{
+
+	var id=document.getElementsByName("expert_email");
+	var ab=document.getElementById("temp_1").value;
+	var abx=ab.split(",")
+	
+	for(var j=0;j<id.length;j++)
+	{
+		if(id[j].checked)
+		{
+			var w=0;
+			for(var x=0;x<abx.length;x++)
+			{
+				if(abx[x]==id[j].value)
+				{
+					w=w+1
+				}
+			}
+			if(w==0)
+			{
+				arr[i]=id[j].value;
+				i=i+1;
+			}
+			
+		}
+	}
+	for(var j=0;j<id.length;j++)
+	{
+			
+			if(!id[j].checked)
+			{
+					for(var x=0;x<arr.length;x++)
+					{
+						if(id[j].value==arr[x])
+						{
+							arr[x]='###';
+						}
+					}
+			}
+	}
+	document.getElementById("temp_1").value=arr;
+	
+}
+</script>
+<script type="text/javascript">
+var arr1=[];
+var i1=0;
+function add1()
+{
+
+	var id=document.getElementsByName("user_email");
+	var ab=document.getElementById("temp_2").value;
+	var abx=ab.split(",")
+	
+	for(var j=0;j<id.length;j++)
+	{
+		if(id[j].checked)
+		{
+			var w=0;
+			for(var x=0;x<abx.length;x++)
+			{
+				if(abx[x]==id[j].value)
+				{
+					w=w+1
+				}
+			}
+			if(w==0)
+			{
+				arr1[i1]=id[j].value;
+				i1=i1+1;
+			}
+			
+		}
+	}
+	for(var j=0;j<id.length;j++)
+	{
+			
+			if(!id[j].checked)
+			{
+					for(var x=0;x<arr1.length;x++)
+					{
+						if(id[j].value==arr1[x])
+						{
+							arr1[x]='###';
+						}
+					}
+			}
+	}
+	document.getElementById("temp_2").value=arr1;
+	
+}
+</script>
+<script>
+function search11()
+{
+	var search=document.getElementById("search1")
+	var abc=document.getElementById("temp_1")
+	
+   $.post("/search_announcement1",
+        {
+          ss:search.value,
+		  arrx:abc.value
+		  
+        },
+		function(data,status){
+			
+			$('#refresh1').html(data);
+        }
+        );
+	
+} 
+function search22()
+{
+	var search=document.getElementById("search2")
+	var abc=document.getElementById("temp_2")
+	
+   $.post("/search_announcement2",
+        {
+          ss:search.value,
+		  arry:abc.value
+		  
+        },
+		function(data,status){
+			
+			$('#refresh2').html(data);
+        }
+        );
+} 
+</script>
+</head>
+{% endblock %}
+{% block body %}
+<div class="banner">
+		   
+				<h2>
+				{{name}}
+			
+				</h2>
+		    </div>
+<div class="grid-form">
+ 		
+ <div class="grid-form1">
+	<form class="form-horizontal" method="POST" name="formx" action="{{url_for('admin_announcements_1')}}">
+  	       <h3>Add Announcement</h3>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+							
+								
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Announcement Description</label>
+									<textarea name="Aname" id="Aname1" rows="5" class="col-md-8"  placeholder="Announcement..." ></textarea>
+								</div>
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Related To</label>
+									<div class="col-sm-8"><select name="relate" class="form-control" id="relate1">
+										<option>User</option>
+										<option>Reviewer</option>
+										<option>User and Reviewer</option>
+									</select></div>
+								</div>
+						</div>
+					</div>
+		
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="button" value="Add" class="btn-primary btn" onclick="add234()">
+				<button type="button" class="btn-primary btn" data-toggle="modal" data-target="#myModal">Send Mail</button>
+			</div>
+		</div>
+	 </div>
+   </form>
+  </div>
+ 	</div>
+	
+	<div class="grid-form">	
+ <div class="grid-form1">
+	<form class="form-horizontal" method="POST" >
+  	       <h3>Delete Announcement</h3>
+  	       		
+			<div class="inbox-mail">
+	
+<!-- tab content -->
+<div class="col-md-12 tab-content tab-content-in">
+<div class="tab-pane active text-style" id="tab1" >
+  <div class="inbox-right"  style="border:0">
+         	
+            <div class="mailbox-content">
+              
+                <table class="table">
+                    <tbody>
+					{% for i in arry %}
+                        <tr class="table-row">
+                           
+                            <td class="table-text">
+                            	<h6>{{i['details']}} </h6>
+								<p>Related To:  {{i['relate']}}</p>
+                                 <p>{{i['date']}}</p>
+                            </td>
+							 <td>
+                            	<a href="{{url_for('delete_announcement', id=i['id'])}}"><span class="fam">Delete</span></a>
+                            </td>                                      
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+               </div>
+            </div>
+</div> 
+</div>
+<div class="clearfix"> </div>
+   </div>
+			
+			
+	
+   </form>
+  </div>
+ 	</div>	
+	
+	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" style="overflow-y: scroll;max-height:85%;">
+    <!--   -->
+      <!-- Modal content-->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Send Mail to Users and Reviewers</h4>
+        </div>
+		<form method="POST" action="{{ url_for('send_by_mail') }}" name="form11">
+        <div class="modal-body" style="overflow-y:scroll;overflow:hidden">
+				<div class="col-md-12">
+					<label for="largeinput" class="col-md-4">Announcement Description</label>
+					<textarea name="for_user" rows="7" class="col-md-8" placeholder="Announcement..." id="temp_3" ></textarea>
+				</div>
+								<div class="col-md-6">
+									<br />
+									<input type="text" id="search1" placeholder="Search Reviewers" onkeydown="search11()"><br /><br />
+									<label >List Of Reviewers</label><br />
+									<div id="refresh1">
+									{% include '/search_announcement1.html' %}
+									</div>
+								</div>
+								<div class="col-md-6">
+								<br />
+								<input type="text" id="search2" placeholder="Search Users" onkeydown="search22()"><br /><br />
+									<label >List Of Users</label><br />
+									<div id="refresh2">
+										{% include '/search_announcement2.html' %}
+									</div>
+								</div>
+								
+        </div>
+		<input type="hidden" id="temp_1" name="temp_11">
+		<input type="hidden" id="temp_2" name="temp_22">
+        <div class="modal-footer">
+				<div class="col-md-12">
+					<center> <input type="button" value="Send" class="btn-primary btn" onclick="abcde()">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </center>
+				</div>
+        </div>
+		</form>
+      </div>
+      
+    </div>
+  </div>	
+  
+  
+	<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="msg1"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="successModal1" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="msg11"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+
+	{% endblock %}

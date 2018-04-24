@@ -1,0 +1,235 @@
+
+{% extends 'admin_base.html' %}
+			{% block head %}
+
+<head>
+<script>
+function fun1()
+{
+	var subject=document.getElementById("subject1");
+	var track=document.getElementById("track1");
+	var reg = /^[A-Za-z]+$/;
+	if(track.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please Select Track"
+		$('#myModal11').modal('show');
+	}
+	else if(subject.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Subject"
+		$('#myModal11').modal('show');
+	}
+	else if(!subject.value.match(reg)){
+		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
+		$('#myModal11').modal('show');
+	}
+	else{
+		
+		$.post("/subject_1",
+        {
+			track:track.value,
+          Sname:subject.value
+        },
+			function(data,status){
+				document.getElementById("msg1").innerHTML="Subject has been added successfully"
+				document.getElementById("hide").value="form1"
+				$('#successModal').modal('show');
+        }
+        );
+	}
+}
+function valthisform()
+{
+  var checkboxs=document.getElementsByName("key");
+  var track=document.getElementById("del_track1");
+    var okay=false;
+	var arrayB = [];
+    for(var i=0,l=checkboxs.length;i<l;i++)
+    {
+        if(checkboxs[i].checked)
+        {
+            okay=true;
+			
+            arrayB[i]=checkboxs[i].value
+			
+        }
+    }
+	if(track.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please Select Track"
+		$('#myModal11').modal('show');
+	}
+    else if(!okay){
+		document.getElementById("msg").innerHTML="Please Select Subject for delete"
+		$('#myModal11').modal('show');
+	}
+	else{
+		
+		$.post("/subject_2",
+        {
+          key:arrayB.toString()
+        },
+		function(data,status){
+				document.getElementById("msg1").innerHTML="Subject has been deleted successfully"
+				document.getElementById("hide").value="form2"
+				$('#successModal').modal('show');
+        }
+        
+        );
+	} 
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+					if(document.getElementById("hide")=="form1"){
+						 document.form1.submit();
+					}
+					else
+					{
+						 document.form2.submit();
+					}
+                }, 2000));
+            });
+        });
+</script>	
+<script>
+function fun(){
+var track=document.getElementById("del_track1").value;
+	  
+	 $.post("/admin_track_subject_delete",
+        {
+          track:track.toString()
+        },
+		function(data,status){
+			$('#refresh_div_1').html(data);
+           
+        }       
+        );		
+}
+</script>
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				</h2>
+		    </div>
+
+		<div class="grid-form">
+ 		
+
+ <div class="grid-form1">
+	<form class="form-horizontal" name="form1" action="{{ url_for('subject') }}">
+  	       <h3>Add Subject</h3>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+							
+								
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Track</label>
+									<div class="col-sm-8"><select name="track" class="form-control" id="track1">
+										{% for i in arr4 %}
+											<option value="{{i['id']}}">{{i['name']}}</option>
+										{% endfor %}
+									</select></div>
+								</div>
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Subject</label>
+									<div class="col-sm-8">
+										<input type="text" class="form-control1 input-lg" id="subject1" placeholder="Subject" name="Sname">
+									</div>
+								</div>
+							
+						</div>
+					</div>
+	  
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="button" value="Add" class="btn-primary btn" onclick="fun1()">
+				
+			</div>
+		</div>
+	 </div>
+    </form>
+  </div>
+
+
+  <div class="grid-form1">
+	<form class="form-horizontal" name="form2" action="{{ url_for('subject') }}">
+  	       <h3>Delete Subject</h3>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+							
+								
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Track</label>
+									<div class="col-sm-8">
+									<select name="track1" id="del_track1" class="form-control" onchange="fun()">
+										<option value="0">Select Track</option>
+										{% for i in arr4 %}
+											<option value="{{i['id']}}">{{i['name']}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								</div>
+								
+								<div id="refresh_div_1">
+									<div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Subject</label>
+									<div class="col-sm-8">						
+										<div class="checkbox-inline"><label>First Select Track</label>
+										</div>
+									</div>
+									</div>
+									<div id="x" style="display:none">
+									{% include '/admin_track_subject_delete.html' %}									
+									</div>
+								</div>
+						</div>
+					</div>
+		
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="button" value="Delete" class="btn-primary btn"  onClick = "valthisform();">
+				<!-- <button class="btn-inverse btn">Reset</button> -->
+			</div>
+		</div>
+	 </div>
+    </form>
+  </div>
+ 	</div>
+	<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+					<input type="hidden" id="hide">
+                    <p id="msg1"></p>
+                </div>
+            </div>
+        </div>
+    </div>	
+{% endblock %}
+

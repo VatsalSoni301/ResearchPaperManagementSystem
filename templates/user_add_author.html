@@ -1,0 +1,194 @@
+
+{% extends 'user_base.html' %}
+{% block head %}
+<head>
+<script>
+function add_data(){
+	
+	var name=document.getElementById("name1")
+	var email=document.getElementById("email1")
+	var designation=document.getElementById("designation1")
+	var area_of_interest=document.getElementById("area_of_interest1")
+	var department=document.getElementById("department1")
+	var institute=document.getElementById("institute1")
+	var university=document.getElementById("university1")
+	var city=document.getElementById("city1")
+	var country=document.getElementById("country1")
+	var reg = /^[A-Za-z]+$/;
+	var reg1 = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	if(name.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Name"
+		$('#myModal11').modal('show');
+	}
+	else if(!name.value.match(reg)){
+		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
+		$('#myModal11').modal('show');
+	}
+	else if(email.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Email-Id"
+		$('#myModal11').modal('show');
+	}
+	else if(reg1.test(email.value) == false)
+	{
+		document.getElementById("msg").innerHTML="Please Enter Valid EmailID"
+		$('#myModal11').modal('show');
+	}
+	else if(designation.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Designation"
+		$('#myModal11').modal('show');
+	}
+	else if(area_of_interest.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Area of interest"
+		$('#myModal11').modal('show');
+	}
+	else if(department.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Department"
+		$('#myModal11').modal('show');
+	}
+	else if(institute.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Institute name"
+		$('#myModal11').modal('show');
+	}
+	else if(university1.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter University name"
+		$('#myModal11').modal('show');
+	}
+	else if(city.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter City Name"
+		$('#myModal11').modal('show');
+	}
+	else if(!city.value.match(reg)){
+		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
+		$('#myModal11').modal('show');
+	}
+	else if(country.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Country Name"
+		$('#myModal11').modal('show');
+	}
+	else if(!country.value.match(reg)){
+		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
+		$('#myModal11').modal('show');
+	}
+	else{
+		
+		$('#successModal').modal('show');
+	}	
+	
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                    document.form1.submit();
+                }, 1500));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+		    <div class="banner">
+		   
+				<h2>
+				Add Author
+				
+				</h2>
+			</div>
+		<div class="validation-system">
+ 		
+ 		<div class="validation-form">
+  	    
+        <form name="form1" action="{{ url_for('user_add_author_1') }}" method="POST">
+         	<div class="col-md-8 form-group">
+									<label for="exampleInputName2">Name</label>
+									<input type="text" class="form-control" id="name1" name="name" placeholder="Name">
+									</div> 
+
+										<div class="col-md-8 form-group">
+										<label for="exampleInputName2">Email Id</label>
+										<input type="text" class="form-control" id="email1" name="email" placeholder="Email Id">
+									  </div> 
+									  
+									  <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Designation</label>
+										<input type="text" class="form-control" id="designation1" name="designation" placeholder="Designation">
+									  </div> 
+									   <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Area Of Interest</label>
+										<input type="text" class="form-control" id="area_of_interest1" name="area_of_interest" placeholder="Area Of Interest">
+									  </div>
+									  
+									   <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Department</label>
+										<input type="text" class="form-control" id="department1" name="department" placeholder="Department">
+									  </div> 
+									  
+									    <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Institute</label>
+										<input type="text" class="form-control" id="institute1" name="institute" placeholder="Institute">
+									  </div>  
+									  <div class="col-md-8 form-group">
+										<label for="exampleInputName2">University</label>
+										<input type="text" class="form-control" id="university1" name="university" placeholder="University">
+									  </div>
+									  
+									   <div class="col-md-8 form-group">
+										<label for="exampleInputName2">City</label>
+										<input type="text" class="form-control" id="city1" name="city" placeholder="City">
+									  </div> 
+									  
+									  <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Country</label>
+										<input type="text" class="form-control" id="country1" name="country" placeholder="Country">
+									  </div> 	
+           
+            
+            <div class="col-md-12 form-group">
+              <button type="button" class="btn btn-primary" onclick="add_data()" >Add</button>
+              <button type="reset" class="btn btn-default">Reset</button>
+            </div>
+          <div class="clearfix"> </div>
+        </form>
+    
+ 	<!---->
+ </div>
+</div>
+
+	<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Author has been Added Successfully
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

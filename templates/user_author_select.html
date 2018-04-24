@@ -1,0 +1,209 @@
+
+<script>
+function g(e){
+  var selectedOpts = $('#author_id option:selected');
+        if (selectedOpts.length == 0) {
+            alert("Nothing to move.");
+            e.preventDefault();
+        }
+        $('#author_id_1').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+}
+
+function g1(e){
+ var selectedOpts = $('#author_id_1 option:selected');
+		
+        if (selectedOpts.length == 0) {
+            alert("Nothing to move.");
+            e.preventDefault();
+        }
+        $('#author_id').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+
+}
+</script> 
+ 
+<script>
+function get_author(){
+
+
+var opts = $('#author_id_1')[0].options;
+
+var array = $.map(opts, function(elem) {
+    return (elem.value);
+});
+
+ if(array.length>4)
+ {	
+	alert("You cannot add more than 4 authors")
+ }
+ else{
+	 if(array!='')
+	 {
+		//alert(array.length)
+		a1=document.getElementById("a1");
+		a2=document.getElementById("a2");
+		a3=document.getElementById("a3");
+		a4=document.getElementById("a4");
+		var i=0;
+		var select = document.getElementById('pauthor1');
+		 for(i=0;i<array.length;i++)
+		 {
+			if(i==0)
+			{
+				a1.value=array[i][0];
+			}
+			else if(i==1)
+			{
+				a2.value=array[i][0];
+			}
+			else if(i==2)
+			{
+				a3.value=array[i][0];
+			}
+			else if(i==3)
+			{
+				a4.value=array[i][0];
+			}
+			var opt = document.createElement('option');
+    		opt.value = array[i][0];
+    		opt.innerHTML = array[i].substring(1);
+    		select.appendChild(opt);
+		 }
+		 alert("Author added now please select primary author.")
+	 }
+	/*document.getElementById('xyz11').value = array;
+	var kk=document.getElementById('xyz11').value;
+	var kk1=kk.split(",");
+	
+	document.getElementById('pqr11').value = kk1[0]
+	var kk2=document.getElementById('pqr11').value;
+	var kk3=kk2.split(/[0-9]+/);
+	if( kk3[1] == undefined ){
+        kk3[1]="";
+    }
+	document.getElementById('12').innerHTML = kk3[1]
+	
+	document.getElementById('pqr11').value = kk1[1]
+	var kk2=document.getElementById('pqr11').value;
+	var kk3=kk2.split(/[0-9]+/);
+	if( kk3[1] == undefined ){
+        kk3[1]="";
+    }
+	document.getElementById('23').innerHTML = kk3[1]
+	
+	document.getElementById('pqr11').value = kk1[2]
+	var kk2=document.getElementById('pqr11').value;
+	var kk3=kk2.split(/[0-9]+/);
+	if( kk3[1] == undefined ){
+        kk3[1]="";
+    }
+	document.getElementById('34').innerHTML =kk3[1]*/
+	
+	
+ }
+	
+		
+} 
+</script>
+
+
+<div class="form-group">
+<label for="selector1" class="col-sm-2 control-label">Author</label> &nbsp&nbsp
+<button type="button" class="btn-inverse btn" data-toggle="modal" data-target="#myModal1">Select Author</button>									
+</div>	
+
+
+<div class="form-group">
+<label for="selector1" class="col-sm-2 control-label">Primary Author*</label> &nbsp&nbsp
+<div class="col-sm-4"><select name="pauthor" id="pauthor1" class="form-control" required="">
+		<option value="0">Self</option>
+			<!--{% for i in arr %}
+				<option value="{{i['id']}}">{{i['name']}}</option>
+			{% endfor %}-->
+		</select></div>
+
+
+		<input type="hidden" name="author1" id="a1">	
+		<input type="hidden" name="author2" id="a2">	
+		<input type="hidden" name="author3" id="a3">
+		<input type="hidden" name="author4" id="a4">
+
+		<!-- <label id="4" name="gh"></label>&nbsp
+		<label id="5" name="ij"></label>&nbsp -->
+									
+</div>
+
+
+<div class="modal fade" id="myModal1" role="dialog">
+	  <div class="modal-dialog modal-lg">
+	
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Author</h4>
+        </div>
+        <div class="modal-body" >
+	
+		<table border="0" style="width:100%">
+		<tr >
+		<td style="width:45%">
+		<div class="col-sm-12">
+			<div class="subject-info-box-1">
+			
+			<select multiple="multiple" name="author_id" id="author_id" class="form-control" required="">
+										
+										{% for i in arr10 %}											
+											<option value="{{i['id']}}{{i['name']}}">{{i['name']}}</option>
+										{% endfor %}
+			</select></div>
+			</div>		
+		</td>
+		
+		<td>
+		<div class="subject-info-arrows text-center">
+		  <input type="button" id="btnRight_1" value=">" class="btn btn-default" onclick="g()" /><br />
+		  <input type="button" id="btnLeft_1" value="<" class="btn btn-default" onclick="g1()" /><br />
+		</div>
+		</td>
+				
+		<td style="width:45%">
+		<div class="col-sm-12">
+			<div class="subject-info-box-2">					
+			<select multiple="multiple" name="author_id_1" id="author_id_1" class="form-control">	
+			
+			</select>
+			</div>
+			</div>					
+		</td>	
+		
+		
+		</tr>
+		</table>
+		<br />
+		
+</div>   
+        <div class="modal-footer">
+		<input type="button" id="submit_key_1" value="Submit"  data-dismiss="modal" class="btn-primary btn" onclick="get_author()"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      </div>  </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+

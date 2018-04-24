@@ -1,0 +1,210 @@
+{% extends 'admin_base.html' %}
+			{% block head %}
+
+<head>
+<title>Admin</title>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+
+</style> 
+<script>
+function valthisform()
+{
+	var volume=document.getElementById("volume1");
+	var issue=document.getElementById("issue1");
+	var paper=document.getElementById("paper1");
+  var file=document.getElementById("file1");
+	ext=file.value.split(".")
+	if(volume.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please Select Volume"
+		$('#myModal11').modal('show');
+	}
+	else if(issue.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please Select Issue"
+		$('#myModal11').modal('show');
+	}
+	else if(paper.value==-1){
+		document.getElementById("msg").innerHTML="Please Select Paper"
+		$('#myModal11').modal('show');
+	}
+	else if(file.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Upload File"
+		$('#myModal11').modal('show');
+	}
+	else if(ext[1]!='doc' && ext[1]!='pdf')
+	{
+		document.getElementById("msg").innerHTML="File must be of doc/pdf type"
+		$('#myModal11').modal('show');
+	}
+	else{
+				document.getElementById("msg1").innerHTML="Paper has been added to issue successfully"
+				$('#successModal').modal('show');
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+					document.form1.submit();
+                }, 2000));
+            });
+        });
+</script>
+<!----->
+<script>
+function fun(){
+var year=document.getElementById("volume1").value;
+	  
+	 $.post("/volume_issue",
+        {
+          year:year.toString()
+        },
+		function(data,status){
+		
+			$('#refresh_div').html(data);
+          	
+        }       
+        );		
+}
+
+
+
+
+</script>
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				</h2>
+		    </div>
+		<div class="grid-form">
+		 <div class="grid-form1">
+	<form class="form-horizontal" name="form1" method="POST" action="{{url_for('paper_add_volume_1')}}" enctype="multipart/form-data">
+  	      
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+							
+								
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Volume</label>
+									<div class="col-sm-8" style="width:20%">
+									<select name="year" id="volume1" class="form-control" onchange="fun()" >
+										<option value="0">Select Volume</option>
+										{% for i in l %}
+											<option value="{{i['id']}}">{{i['year']}}</option>
+										{% endfor %}
+									</select></div>
+								</div>
+								
+								<div id="refresh_div">	
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Issue</label>
+									<div class="col-sm-8" style="width:20%">
+									<select  class="form-control" >
+										<option value="0">Select issue</option>
+										
+				
+									
+									</select></div>
+								</div>
+								
+									<div id="x" style="display:none">
+									{% include '/volume_issue.html' %}	
+									</div>									
+								</div>	
+								
+								
+	<div class="form-group">
+	<label for="selector1" class="col-sm-2 control-label">Paper</label>
+	<div class="col-sm-8">	
+		{% if x=='true' %}
+				No Paper Found
+			
+	{% else %}
+		
+	<select name="paper" id="paper1" class="form-control">
+		<option value="-1">Select Paper</option>
+			{% for item1 in k %}
+				<option value="{{item1['id']}}">{{item1['title']}}</option>
+					{% endfor %}
+				</select>
+
+	{% endif %}
+	</div>	
+	<br /><br />
+          <label class="col-sm-2 control-label">Upload File</label>
+           <input type="file" class="col-md-6" name="file" id="file1">
+     
+																																						
+			</div>	
+								
+			
+			</div>																														
+		</div>
+	  
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="button" value="Add" class="btn-primary btn" onClick = "valthisform();">
+			</div>
+		</div>
+	 </div>
+    </form>
+  </div>
+	<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="msg1"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+		
+
+{% endblock %}
+

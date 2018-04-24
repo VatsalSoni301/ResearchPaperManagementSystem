@@ -1,0 +1,100 @@
+
+{% extends 'user_base.html' %}
+{% block head %}
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style> 
+<script>
+    function delBrief(obj)
+    {
+        ans=obj.id;
+        if (confirm("Are you sure want to remove from briefcase?")) {
+            $.post("/delete_briefcase_1",
+            {
+            id:ans
+            },
+            function(data,status){
+                $( "#main_ref" ).load(window.location.href + " #main_ref" );
+        }
+            );
+        } else {
+        
+        }
+    }
+</script>
+</head>
+{% endblock %}
+{% block body %}
+
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				
+				</h2>
+		    </div>
+		
+	<div class="grid-form">
+ 		
+ <div class="grid-form1" id="main_ref">
+	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+	<th style="text-align: center; width:10%">Sr.No</th>
+ 	<th style="text-align: center;">Papers</th>
+	<th>Bookmarked</th>	
+ 	</tr>
+ 	
+ 	{% for item in k %}
+ 	<tr>
+	<td style="text-align: center;"></td>
+		<td>
+			<ul style="text-align:left;list-style: none;">
+			<li><a href="{{url_for('paper_view_click',p_id=item['id'],mode='Briefcase')}}">Title:&nbsp {{item['topic']}}</a></li>
+				<li>Author: &nbsp {{item['f_name']}} &nbsp  {{item['l_name']}}</li>				
+				<li> Date:&nbsp {{item['last']}}</li>				
+			</ul>
+		</td>
+		<td>
+			<!--<a name="brief1" id="{{item['id']}}" onclick="delBrief(this)"><span class="fam">Remove</span></a>-->
+			<a name="brief1" id="{{item['id']}}" onclick="delBrief(this)"> 
+				<i class="fa fa-trash" style="color:black"></i>
+			</a> 
+		</td>	
+		
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+
+  </div>
+
+ 	</div>
+
+{% endblock %}
+

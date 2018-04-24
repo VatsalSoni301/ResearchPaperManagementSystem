@@ -1,0 +1,84 @@
+
+{% extends 'expert_base.html' %}
+{% block head %}
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style> 
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				
+				</h2>
+		    </div>
+	<div class="grid-form">
+ 		
+ <div class="grid-form1">
+		{% if x=='true' %}
+				<h4>No Paper Found</h4>
+		{% endif %}
+		{% if x=='false' %}
+				
+		
+	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+	<th style="text-align: center; width:10%">Sr.No</th>
+ 		<th style="text-align: center;">Papers</th>
+
+ 	</tr>
+ 	
+ 	{% for item in k %}
+ 	<tr>
+	<td style="text-align: center;"></td>
+		<td>
+			<ul style="text-align:left;list-style: none;">
+			<li><a href="{{url_for('review_paper_1',p_id=item['id'],mode='Search',search=search)}}">Title:&nbsp {{item['title']}}</a></li>			
+				<li> Date:&nbsp{{item['date']}}</li>
+				<li> Volume:&nbsp{{item['v_id']}}</li>
+				<li> Issue:&nbsp{{item['i_id']}}</li>
+				
+			</ul>
+		</td>	
+
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+{% endif %}
+  </div>
+
+ 	</div>
+				
+				
+{% endblock %}
+

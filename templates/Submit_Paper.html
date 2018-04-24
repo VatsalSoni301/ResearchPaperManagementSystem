@@ -1,0 +1,278 @@
+
+{% extends 'user_base.html' %}
+{% block head %}
+<head>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+
+
+<script>
+function fun(){
+var track=document.getElementById("track1").value;
+	  
+	 $.post("/track_subject_keyword",
+        {
+          track:track.toString()
+        },
+		function(data,status){
+			$('#refresh_div').html(data);
+		}       
+        );		
+}
+</script>	
+
+<script type="text/javascript">
+function add_data(){
+	
+	var title=document.getElementById("title1")
+	var track=document.getElementById("track1")
+	var subject=document.getElementById("subject1")
+	var keyword1=document.getElementById("keyword11")
+	var keyword2=document.getElementById("keyword22")
+	var keyword3=document.getElementById("keyword33")
+	var keyword4=document.getElementById("keyword44")
+	var keyword5=document.getElementById("keyword55")
+	var abstract1=document.getElementById("abstract1")
+	var f=document.getElementById("file1")
+	var x=f.value.split(".")
+	if(title.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Title"
+		$('#myModal11').modal('show');
+	}
+	else if(track.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please Select Track"
+		$('#myModal11').modal('show');
+	}
+	else if(subject.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please Select Subject"
+		$('#myModal11').modal('show');
+	}
+	else if(keyword1.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Write Keyword-1"
+		$('#myModal11').modal('show');
+	}
+	else if(keyword2.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Write Keyword-2"
+		$('#myModal11').modal('show');
+	}
+	else if(keyword3.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Write Keyword-3"
+		$('#myModal11').modal('show');
+	}
+	else if(keyword4.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Write Keyword-4"
+		$('#myModal11').modal('show');
+	}
+	else if(keyword5.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Write Keyword-5"
+		$('#myModal11').modal('show');
+	}
+	else if(abstract1.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Abstract"
+		$('#myModal11').modal('show');
+	}
+	else if(f.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Upload file"
+		$('#myModal11').modal('show');
+	}
+	else if(x[1]!='pdf' && x[1]!='doc' && x[1]!='docx')
+	{
+			document.getElementById("msg").innerHTML="File must be in pdf/doc format"
+			$('#myModal11').modal('show');
+	}
+	else{
+		 $('#successModal').modal('show');	
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                    document.form1.submit();
+                }, 1000));
+            });
+        });
+			
+</script>
+</head>
+{% endblock %}
+{% block body %}	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				
+				</h2>
+		    </div>
+<div class="grid-form">	
+  <div class="grid-form1">
+		<p style="color:red">* - Required Fields... </p>
+	<form class="form-horizontal" method="POST" action="{{ url_for('submit_paper_1') }}" enctype="multipart/form-data" name="form1">
+  	       <!--<h3>Form</h3>-->
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+								
+								
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Paper Title*</label>
+									<div class="col-sm-8">
+										<input type="text" class="form-control1 input-lg" name="title" id="title1" placeholder="Title">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Track*</label>
+									<div class="col-sm-8"><select name="track" id="track1" class="form-control"  onchange="fun()">
+											<option value="0">Select Track</option>
+										{% for i in arr4 %}
+											<option value="{{i['id']}}">{{i['name']}}</option>
+										{% endfor %}
+									</select></div>
+								</div>
+								
+								<div id="refresh_div">						
+									{% include '/track_subject_keyword.html' %}						
+								</div>	
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-1*</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="keyword1" id="keyword11" placeholder="Keyword">
+									</div>
+								</div>
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-2*</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="keyword2" id="keyword22" placeholder="Keyword">
+									</div>
+								</div>
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-3*</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="keyword3" id="keyword33" placeholder="Keyword">
+									</div>
+								</div>
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-4*</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="keyword4" id="keyword44" placeholder="Keyword">
+									</div>
+								</div>
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-5*</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="keyword5" id="keyword55" placeholder="Keyword">
+									</div>
+								</div>
+								<div id="refresh_div_11">						
+									{% include '/user_author_select.html' %}						
+								</div>	
+								
+						
+								
+								<!-- <div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Subject</label>
+									<div class="col-sm-8"><select name="subject" class="form-control" required="">
+										
+										{% for i in arr3 %}
+											<option value="{{i['id']}}">{{i['name']}}</option>
+										{% endfor %}
+									</select></div>
+								</div>
+								<div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Keyword</label>
+									<div class="col-sm-8">&nbsp
+										{% for i in arr2 %}
+												<div class="checkbox-inline"><label><input type="checkbox" name="key" value="{{i['id']}}"> {{i['name']}}</label></div>
+										{% endfor %}
+										
+										
+									</div>
+								</div> -->
+								
+								
+								
+								
+								<div class="form-group">
+									<label for="txtarea1" class="col-sm-2 control-label">Abstract*</label>
+									<div class="col-md-8"><textarea name="abstract" id="abstract1" cols="70" rows="10" ></textarea></div>
+								</div>
+								
+								
+									
+								
+							
+								
+														
+								<div class="form-group">
+								<label class="col-sm-2 control-label">Manuscript*</label>
+								<input type="file" name="file" id="file1">
+								</div>
+						</div>
+					</div>
+									
+					<div class="g-recaptcha" data-sitekey="6LdvCjAUAAAAAI0AbUHdhWJ0x64bESY0qtg4Faxn" style="margin-left:8%"></div> 
+						 <br /> 
+		
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="submit" class="btn-primary btn" value="Submit" onclick="add_data()">
+				<input type="reset" class="btn-inverse btn" value="Reset">
+			</div>
+		</div>
+	 </div>
+    </form>
+  </div>
+ 	</div>
+	<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Paper has been Successfully Submitted
+                </div>
+            </div>
+        </div>
+    </div>
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+{% endblock %}
+

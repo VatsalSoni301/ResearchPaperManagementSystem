@@ -1,0 +1,237 @@
+
+{% extends 'expert_base.html' %}
+{% block head %}
+<head>
+<script>
+function fun1(){
+	document.getElementById("hdd").value="accept"
+	var comment=document.getElementById("comment1")
+	if(comment.value!='')
+	{
+		document.getElementById("msg").innerHTML="If you want togive comment then please select comment option";
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}	
+}
+function fun2(){
+	document.getElementById("hdd").value="reject"
+	var comment=document.getElementById("comment1")
+	if(comment.value!='')
+	{
+		document.getElementById("msg").innerHTML="If you want togive comment then please select comment option";
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}	
+}
+function fun3(){
+	document.getElementById("hdd").value="rejectwithcomment"
+	var comment=document.getElementById("comment1")
+	if(comment.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Comment"
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}
+}
+function fun4(){
+	document.getElementById("hdd").value="acceptwithcomment"
+	var comment=document.getElementById("comment1")
+	if(comment.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Comment"
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}	
+}
+function fun5(){
+	document.getElementById("hdd").value="continuewithmodification"
+	var comment=document.getElementById("comment1")
+	if(comment.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Comment"
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                    document.form1.submit();
+                }, 2000));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{% if mode == "Paper_To_Be_Review" %}
+				<a href="/paper_to_be_reviwed">Paper To Be Reviewed</a>/{{name}}
+				{% endif %}
+				</h2>
+		    </div>
+				<!---->
+			<div class="grid-form">
+ 		
+  <div class="grid-form1">
+	<form class="form-horizontal" method="POST" action="{{ url_for('accept', p_id=pp_id) }}" name="form1">
+  	       <h3>Research Paper</h3>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+								
+							<div class="form-group mb-n">
+							<label class="col-md-2 control-label">Title</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{arr[1]}}">
+							</div>
+							</div> 
+							
+							<div class="form-group mb-n">
+							<label class="col-md-2 control-label">Track</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{track}}">
+							</div>
+							</div> 
+							
+							<div class="form-group mb-n">
+							<label class="col-md-2 control-label">Subject</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{sub}}">
+							</div>
+							</div> 
+								
+								
+									<div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Keyword</label>
+									<div class="col-sm-8">&nbsp
+										{% for x in keyw %}
+												<div class="checkbox-inline"><label><input type="checkbox" name="key" 
+												
+													checked
+												disabled > {{x['name']}}</label></div>
+										
+											{% endfor %}
+										
+										
+									</div>
+								</div>
+								</div>
+								<div class="form-group">
+									<label for="txtarea1" class="col-sm-2 control-label">Abstract</label>
+									<div class="col-md-8"><textarea cols="70" rows="10" readonly="">{{arr[2]}}</textarea></div>
+								</div>
+						
+					</div>
+		
+  <div class="panel-body">
+						
+						  <div class="form-group mb-n">
+							<label class="col-md-2 control-label">Document</label>
+							<div class="col-md-8">
+								<a href="/static/Paper/{{arr[4]}}" class="btn-primary btn" target="_blank"> 
+							 Download
+							  </a>
+							<button type="button" class="btn-primary btn" data-toggle="modal" data-target="#myModal">Preview</button>
+							
+							<!-- <button class="btn-primary btn">Download</button> -->
+							</div>
+						</div> 
+						<div class="form-group">
+									<label for="txtarea1" class="col-sm-2 control-label">Comment</label>
+									<div class="col-md-8"><textarea name="comment" id="comment1" placeholder="Write Comment..." cols="70" rows="4" ></textarea></div>
+						</div>
+						
+	</div>
+	<div class="bs-example" data-example-id="form-validation-states-with-icons">
+     
+      
+        <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
+      </div>
+    <input type="hidden" id="hdd" name="hdd">
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="button"  name="submit1" value="Accept" class="btn-primary btn" onclick="fun1()">&nbsp;&nbsp;&nbsp;
+				<input type="button" name="submit2" value="Reject" class="btn-primary btn" onclick="fun2()">
+				<br /><br />
+				<input type="button" name="submit3" value="RejectWithComment" class="btn-primary btn" onclick="fun3()">
+				<input type="button" name="submit4" value="AcceptWithComment" class="btn-primary btn" onclick="fun4()">
+				<input type="button" name="submit5" value="ContinueWithComment" class="btn-primary btn" onclick="fun5()">
+			</div>
+		</div>
+	 </div>
+    </form>
+  </div>
+ 	</div>	
+		
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Paper</h4>
+        </div>
+        <div class="modal-body" >
+			<div style="text-align: center;">
+				<iframe src="http://docs.google.com/gview?url=http://www.pdf995.com/samples/pdf.pdf&embedded=true" 
+style="width:500px; height:500px;" frameborder="0"></iframe> 
+</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>			
+<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Reviewed
+                </div>
+            </div>
+        </div>
+    </div>
+				
+{% endblock %}
+

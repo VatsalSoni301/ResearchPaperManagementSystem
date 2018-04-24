@@ -1,0 +1,224 @@
+
+{% extends 'user_base.html' %}
+{% block head %}
+<head>
+<script>
+function add_data(){
+	
+	var title=document.getElementById("title1")
+	var track=document.getElementById("track1")
+	var subject=document.getElementById("subject1")
+	var keyword=document.getElementById("xyz1")
+	var abstract1=document.getElementById("abstract1")
+	var f=document.getElementById("file1")
+	var x=f.value.split(".")
+	
+	if(title.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Title"
+		$('#myModal11').modal('show');
+	}
+	else if(track.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please Select Track"
+		$('#myModal11').modal('show');
+	}
+	else if(subject.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please Select Subject"
+		$('#myModal11').modal('show');
+	}
+	else if(keyword.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Select Keyword"
+		$('#myModal11').modal('show');
+	}
+	else if(abstract1.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Abstract"
+		$('#myModal11').modal('show');
+	}
+	else if(x[1]!='pdf' && x[1]!='doc' && f.value!='')
+	{
+			document.getElementById("msg").innerHTML="File must be in pdf/doc format"
+			$('#myModal11').modal('show');
+	}
+		
+	else{
+		 $('#successModal').modal('show');	
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                    document.form1.submit();
+                }, 2000));
+            });
+        });
+</script>
+<script>
+function fun(){
+var track=document.getElementById("track1").value;
+	 $.post("/edit_track_subject_keyword",
+        {
+          track:track.toString()
+        },
+		function(data,status){
+			$('#refresh_div').html(data);
+		}       
+        );		
+}
+
+
+</script>
+</head>
+{% endblock %}
+{% block body %}
+
+		    <div class="banner">
+		   
+				<h2>
+				<a href="/list_paper_comment">List Of Papers</a>/<a href="{{ url_for('user_summary_paper',p_id=p_id)}}">Summary Of Paper</a>/{{name}}
+				
+				</h2>
+		    </div>
+		<div class="grid-form">
+ 		
+  <div class="grid-form1">
+	<form class="form-horizontal" method="POST" action="{{ url_for('edit_paper_1',p_id=p_id) }}" enctype="multipart/form-data" name="form1">
+  	       <h3>Form</h3>
+		   <p style="color:red">* Note that you have to select track and subject again. *</p>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+								
+								
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Title</label>
+									<div class="col-sm-8">
+										<input type="text" class="form-control1 input-lg" name="title" id="title1" value="{{arr[1]}}" placeholder="Title">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Track</label>
+									<div class="col-sm-8"><select name="track" id="track1" class="form-control" onchange="fun()">
+									<option value="0" >Select Track</option>
+										{% for i in arr4 %}
+											<option value="{{i['id']}}"
+											>{{i['name']}}</option>
+										{% endfor %}
+									</select></div>
+								</div>
+								
+								<div id="refresh_div">									
+									{% include '/edit_track_subject_keyword.html' %}						
+								</div>	
+								<div class="form-group mb-n">
+										<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-1*</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control1 input-lg" name="keyword1" id="keyword11" value="{{keyw[0]}}" placeholder="Keyword">
+										</div>
+									</div>
+									<div class="form-group mb-n">
+										<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-2*</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control1 input-lg" name="keyword2" id="keyword22" value="{{keyw[1]}}" placeholder="Keyword">
+										</div>
+									</div>
+									<div class="form-group mb-n">
+										<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-3*</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control1 input-lg" name="keyword3" id="keyword33" value="{{keyw[2]}}" placeholder="Keyword">
+										</div>
+									</div>
+									<div class="form-group mb-n">
+										<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-4*</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control1 input-lg" name="keyword4" id="keyword44" value="{{keyw[3]}}" placeholder="Keyword">
+										</div>
+									</div>
+									<div class="form-group mb-n">
+										<label for="largeinput" class="col-sm-2 control-label label-input-lg">Keyword-5*</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control1 input-lg" name="keyword5" id="keyword55" value="{{keyw[4]}}" placeholder="Keyword">
+										</div>
+									</div>
+								
+								<!-- <div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Subject</label>
+									<div class="col-sm-8"><select name="subject" class="form-control">
+										
+										{% for i in arr3 %}
+											<option value="{{i['id']}}"
+											{% if arr[7] == i['id'] %}
+													selected
+												{% endif %}
+											>{{i['name']}}</option>
+										{% endfor %}
+									</select></div>
+								</div>
+								<div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Keyword</label>
+									<div class="col-sm-8">&nbsp
+										{% for i in arr2 %}
+												<div class="checkbox-inline"><label><input type="checkbox" name="key" value="{{i['id']}}" {% for x in keyw %}
+												{% if x['name'] in i['name'] %}
+													checked
+												{% endif %}
+											{% endfor %}> {{i['name']}}</label></div>
+										{% endfor %}
+										
+										
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label for="txtarea1" class="col-sm-2 control-label">Abstract</label>
+									<div class="col-md-8"><textarea name="abstract" required="" id="abstract1" cols="70" rows="10" >{{arr[2]}}</textarea></div>
+								</div>
+								<div class="form-group">
+								<label class="col-sm-2 control-label">Manuscript</label>
+								<input type="file" name="file" id="file1">
+								</div>
+						</div>
+					</div>
+		
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="submit" class="btn-primary btn" value="Submit" onclick="add_data()">
+				<input type="reset" class="btn-inverse btn" value="Reset">
+			</div>
+		</div>
+	 </div>
+    </form>
+  </div>
+ 	</div>
+	<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Paper has been Successfully Resubmitted
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

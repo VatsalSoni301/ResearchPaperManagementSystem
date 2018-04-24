@@ -1,0 +1,141 @@
+
+{% extends 'user_base.html' %}
+{% block head %}
+<head>
+<title>User</title>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style> 
+<script>
+    function delBrief(obj)
+    {
+        ans=obj.id;
+        if (confirm("Are you sure want to remove from briefcase?")) {
+            $.post("/delete_briefcase_1",
+            {
+            id:ans
+            },
+            function(data,status){
+                $( "#main_ref" ).load(window.location.href + " #main_ref" );
+        }
+            );
+        } 
+    }
+	function addBrief(obj)
+    {
+		
+        ans=obj.id;
+		if (confirm("Are you sure want to add to briefcase?")) {
+            $.post("/add_into_briefcase_1",
+            {
+            id:ans
+            },
+            function(data,status){
+                $( "#main_ref" ).load(window.location.href + " #main_ref" );
+        }
+            );
+        } 
+    }
+</script>
+</head>
+{% endblock %}
+{% block body %}
+		    <div class="banner">
+		   
+				<h2>
+				<a href="/browse">Browse</a>/{{name}}
+				
+				</h2>
+		    </div>
+			
+	<div class="grid-form">
+ 		
+ <div class="grid-form1" id="main_ref">
+	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+	<th style="text-align: center; width:10%">Sr.No</th>
+ 		<th style="text-align: center;" colspan=2>Papers</th>
+
+ 	</tr>	
+ 	{% for item in k %}
+ 	<tr>
+	<td style="text-align: center;"></td>
+		<td>
+			<ul style="text-align:left;list-style: none;">
+			<li><a href="{{url_for('paper_view_click',p_id=item['p_id'],mode='subject',sub_id=sub_id)}}">Title:&nbsp {{item['topic']}}</a></li>
+				<li>Author: &nbsp {{item['f_name']}} &nbsp  {{item['l_name']}}</li>								
+				<li> Date:&nbsp {{item['last']}}</li>				
+			</ul>
+		</td>	
+		
+		<td style="width:5%;">
+		
+		<div class="panel-body" style="float:right-side">
+						
+						  <div class="form-group mb-n">
+							
+							<div class="col-md-12" >
+							
+						 	<a href="/static/Paper/{{item['path']}}" target="_blank"> 
+								<i class="fa fa-file-pdf-o" style="color:black"></i>
+							  </a>  
+							</div>
+						</div> 
+						 <div class="form-group mb-n">
+							
+							<div class="col-md-12">
+							{% if item['present']==0 %}
+							<!--<a href="{{url_for('add_into_briefcase_1',p_id=item['p_id'],sub_id=sub_id)}}"> -->
+							<a name="add1" id="{{item['p_id']}}" onclick="addBrief(this)">
+							<i class="fa fa-briefcase" style="color:black"></i>
+							  </a> 
+							  {% else %}
+							  <a name="delete1" id="{{item['p_id']}}" onclick="delBrief(this)"> 
+								<i class="fa fa-trash" style="color:black"></i>
+								</a> 
+							  {% endif %}
+							</div>
+							
+						</div> 
+						
+					</div>
+			</td>
+		
+		
+		
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+
+  </div>
+
+ 	</div>
+
+{% endblock %}
+

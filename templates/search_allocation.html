@@ -1,0 +1,17 @@
+<table>
+			{% for item in l %}
+			<tr>
+			<td>
+			
+				<div class="radio block"  style="text-align:left">
+				<input type="checkbox"  value="{{item['id']}}" name="expert_name" onclick="add();" {% if item['id']|string in tat %} 
+																										checked
+																										{% endif %}
+				><label> <a onclick="anc(this)" id="{{item['id']}}"> {{item['fname']}} {{item['lname']}} </a></label><br /></div>
+			
+			</tr>
+			</td>
+			{% endfor %}
+			</table>
+			<input type="hidden" id="box" name="box1">
+			

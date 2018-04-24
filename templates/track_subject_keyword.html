@@ -1,0 +1,193 @@
+
+<script>
+(function () {
+    $('#btnRight').click(function (e) {
+        var selectedOpts = $('#key option:selected');
+        if (selectedOpts.length == 0) {
+            alert("Nothing to move.");
+            e.preventDefault();
+        }
+        $('#key1').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+   
+    $('#btnLeft').click(function (e) {
+        var selectedOpts = $('#key1 option:selected');
+		
+        if (selectedOpts.length == 0) {
+            alert("Nothing to move.");
+            e.preventDefault();
+        }
+        $('#key').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+	
+	
+   
+}(jQuery));
+</script>
+
+
+<script>
+function get_keyword(){
+
+
+var opts = $('#key1')[0].options;
+
+var array = $.map(opts, function(elem) {
+    return (elem.value);
+});
+
+ if(array.length>5)
+ {	
+	alert("You cannot select more than 5 keywords")
+ }
+ else{
+	document.getElementById('xyz1').value = array;
+	var kk=document.getElementById('xyz1').value;
+	var kk1=kk.split(",");
+	
+	document.getElementById('pqr').value = kk1[0]
+	var kk2=document.getElementById('pqr').value;
+	var kk3=kk2.split(/[0-9]+/);
+	if( kk3[1] == undefined ){
+        kk3[1]="";
+    }
+	document.getElementById('1').innerHTML = kk3[1]
+	
+	document.getElementById('pqr').value = kk1[1]
+	var kk2=document.getElementById('pqr').value;
+	var kk3=kk2.split(/[0-9]+/);
+	if( kk3[1] == undefined ){
+        kk3[1]="";
+    }
+	document.getElementById('2').innerHTML = kk3[1]
+	
+	document.getElementById('pqr').value = kk1[2]
+	var kk2=document.getElementById('pqr').value;
+	var kk3=kk2.split(/[0-9]+/);
+	if( kk3[1] == undefined ){
+        kk3[1]="";
+    }
+	document.getElementById('3').innerHTML =kk3[1]
+	
+	document.getElementById('pqr').value = kk1[3]
+	var kk2=document.getElementById('pqr').value;
+	var kk3=kk2.split(/[0-9]+/);
+	if( kk3[1] == undefined ){
+        kk3[1]="";
+    }
+	document.getElementById('4').innerHTML =kk3[1]
+	
+	document.getElementById('pqr').value = kk1[4]
+	var kk2=document.getElementById('pqr').value;
+	var kk3=kk2.split(/[0-9]+/); 
+	if( kk3[1] == undefined ){
+        kk3[1]="";
+    }
+	document.getElementById('5').innerHTML = kk3[1]
+ }
+	
+		
+} 
+</script>
+
+
+<div class="form-group">
+<label for="selector1" class="col-sm-2 control-label">Subject*</label>
+	<div class="col-sm-8"><select name="subject" id="subject1" class="form-control" required="">
+	<option value="0">Select Subject</option>
+		{% for i in arr %}
+			<option value="{{i['id']}}">{{i['name']}}</option>
+		{% endfor %}
+	</select></div>
+</div>
+											
+<!--<div class="form-group">
+<label for="selector1" class="col-sm-2 control-label">Keyword</label> &nbsp&nbsp
+<button type="button" class="btn-inverse btn" data-toggle="modal" data-target="#myModal">Select Keyword</button>									
+</div>	-->
+
+															
+<input type="hidden" name="xyz" id="xyz1">	
+<input type="hidden" name="pqr" id="pqr">	
+
+<!--<div class="form-group">
+<label for="selector1" class="col-sm-2 control-label">Selected Keyword</label> &nbsp&nbsp
+		
+								<label id="1" name="ab"></label>&nbsp
+								<label id="2" name="cd"></label>&nbsp
+								<label id="3" name="ef"></label>&nbsp
+								<label id="4" name="gh"></label>&nbsp
+								<label id="5" name="ij"></label>&nbsp
+									
+</div>-->
+								
+
+
+<div class="modal fade" id="myModal" role="dialog">
+	  <div class="modal-dialog modal-lg">
+	
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Keyword</h4>
+        </div>
+        <div class="modal-body" >
+	
+		<table border="0" style="width:100%">
+		<tr >
+		<td style="width:45%">
+		<div class="col-sm-12">
+			<div class="subject-info-box-1">
+			
+			<select multiple="multiple" name="key" id="key" class="form-control" required="">
+										
+										{% for i in arr1 %}											
+											<option value="{{i['id']}}{{i['name']}}">{{i['name']}}</option>
+										{% endfor %}
+			</select></div>
+			</div>		
+		</td>
+		
+		<td>
+		<div class="subject-info-arrows text-center">
+		  <input type="button" id="btnRight" value=">" class="btn btn-default" /><br />
+		  <input type="button" id="btnLeft" value="<" class="btn btn-default" /><br />
+		</div>
+		</td>
+				
+		<td style="width:45%">
+		<div class="col-sm-12">
+			<div class="subject-info-box-2">					
+			<select multiple="multiple" name="key1" id="key1" class="form-control">	
+			
+			</select>
+			</div>
+			</div>					
+		</td>	
+		
+		
+		</tr>
+		</table>
+		<br />
+		
+</div>   
+        <div class="modal-footer">
+		<input type="button" id="submit_key" value="Submit"  data-dismiss="modal" class="btn-primary btn" onclick="get_keyword()"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      </div>  </div>
+  </div>												
+							 							
+ <!-- Modal content-->
+	
+	
+	 
+   	

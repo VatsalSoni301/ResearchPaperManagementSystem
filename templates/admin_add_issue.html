@@ -1,0 +1,232 @@
+{% extends 'admin_base.html' %}
+<head>
+{% block head %}
+<script>
+function fun()
+{
+	var no=document.getElementById("issue_no1").value;
+	var volume=document.getElementById("volume1").value;
+		$.post("/issue_check",
+        {
+			issue:no,
+			volume:volume
+        },
+			function(data,status){
+				if(data=="wrong")
+				{
+					document.getElementById("msg").innerHTML="Issue no already Exists."
+					$('#myModal11').modal('show');
+				}
+				else
+				{
+					document.getElementById("msg1").innerHTML="Issue has been added successfully"
+					$('#successModal').modal('show');
+				}
+				
+        }
+        );
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+						 document.form1.submit();
+					
+                }, 1500));
+            });
+        });
+</script>
+{% endblock %}
+</head>
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				</h2>
+		    </div>
+
+		<div class="grid-form">
+ 		
+
+ <div class="grid-form1">
+	<form class="form-horizontal" method="POST" action="{{ url_for('issue_1') }}" name="form1">
+  	       <h3>Add Issue</h3>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+							
+								
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Volume</label>
+									<div class="col-sm-8" style="width:20%">
+									<select name="volume" id="volume1" class="form-control" required="">
+										{% for i in arr %}
+											<option value="{{i['id']}}">{{i['name']}}</option>
+										{% endfor %}
+									</select></div>
+								</div>
+								<div class="form-group">
+									<label for="selector1" class="col-sm-2 control-label">Issue No</label>
+									<div class="col-sm-8" style="width:20%">
+									<select name="issue_no" id="issue_no1" class="form-control" >
+										
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
+											<option value="8">8</option>
+											<option value="9">9</option>
+											<option value="10">10</option>
+											<option value="11">11</option>
+											<option value="12">12</option>
+										
+									</select></div>
+								</div>
+								
+								<!-- <div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Exiting Issue</label>
+									<div class="col-sm-8">
+									<ul>
+										{% for x in arr1 %}												
+										<a href="{{url_for('issue_paper_list',i_id=x['id'])}}">
+										<li>{{x['name']}}</li>	
+										</a>																																															
+											{% endfor %}
+										</ul>
+										
+									</div>
+								</div>
+								 -->
+								
+								
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">From</label>
+									<div class="col-sm-4" style="width:20%"><select name="start_month" class="form-control" >
+										
+											<option value="January">January</option>
+											<option value="February">February</option>
+											<option value="March">March</option>
+											<option value="April">April</option>
+											<option value="May">May</option>
+											<option value="June">June</option>
+											<option value="July">July</option>
+											<option value="August">August</option>
+											<option value="September">September</option>
+											<option value="October">October</option>
+											<option value="November">November</option>
+											<option value="Decemeber">Decemeber</option>
+										
+									</select></div>
+									</div>
+									<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">To</label>
+									<div class="col-sm-4" style="width:20%"><select name="end_month" class="form-control" >
+										
+											<option value="January">January</option>
+											<option value="February">February</option>
+											<option value="March">March</option>
+											<option value="April">April</option>
+											<option value="May">May</option>
+											<option value="June">June</option>
+											<option value="July">July</option>
+											<option value="August">August</option>
+											<option value="September">September</option>
+											<option value="October">October</option>
+											<option value="November">November</option>
+											<option value="Decemeber">Decemeber</option>
+										
+									</select></div>
+									
+									
+									<!-- <div class="col-sm-8">
+										<input type="text" class="form-control1 input-lg" id="largeinput" placeholder="Enter Month" name="Iname">
+									</div> -->
+								</div>
+							
+						</div>
+						
+						
+							<div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Exiting Volume </label>
+									<div class="col-sm-8">
+									<ul>
+										{% for x in arr %}	
+									<div class="panel-heading">		
+									  <a data-toggle="collapse" href="#{{x['id']}}">
+									 
+									  <li class="fa fa-plus-square">
+									  <!-- <i class="fa-li fa fa-check-square"></i> -->
+									   {{x['name']}}</li>
+									  </a>	
+									  </div>
+									   <div id="{{x['id']}}" class="panel-collapse collapse">
+										<div class="panel-body">
+											<ul>
+										{% for y in arr1 %}	
+										
+										{% if x['id'] == y['volume'] %}
+										 <a href="{{url_for('issue_paper_list',i_id=y['id'])}}">
+										 <li> Issue  {{ y['i_no']}} &nbsp :&nbsp{{y['name']}}
+										 
+										 </li></a>
+										{% endif %}
+										
+										{% endfor %}
+										</ul>
+										</div>
+									
+									</div>
+											{% endfor %}
+										</ul>
+										
+									</div>
+								</div>
+						
+						
+					</div>
+	  
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="button" value="Add" class="btn-primary btn" onclick="fun()">
+				<button class="btn-default btn">Cancel</button>
+			</div>
+		</div>
+	 </div>
+    </form>
+  </div>
+
+ 	</div>
+	<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+					<input type="hidden" id="hide">
+                    <p id="msg1"></p>
+                </div>
+            </div>
+        </div>
+    </div>	
+	
+{% endblock %}

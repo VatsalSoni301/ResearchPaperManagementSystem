@@ -1,0 +1,244 @@
+{% extends 'admin_base.html' %}
+{% block head %}
+<script>
+function add_data(){
+	
+	var fname=document.getElementById("fname1")
+	var mname=document.getElementById("mname1")
+	var lname=document.getElementById("lname1")
+	var email=document.getElementById("email1")
+	var mobile=document.getElementById("mobile1")
+	var password=document.getElementById("pass1")
+	var confirm=document.getElementById("cpass1")
+	var date=document.getElementById("date1")
+	var skill=document.getElementById("skill1")
+	var experience=document.getElementById("total_experience1")
+	var exp_words=document.getElementById("experience_in_words1")
+	var file=document.getElementById("file1")
+	var cv=document.getElementById("cv1")
+	x=file.value.split(".")
+	y=cv.value.split(".")
+	 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	if(fname.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter FirstName"
+		$('#myModal11').modal('show');
+	}
+	else if(mname.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Select MiddleName"
+		$('#myModal11').modal('show');
+	}
+	else if(lname.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Select LastName"
+		$('#myModal11').modal('show');
+	}
+	else if(email.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter EmailId"
+		$('#myModal11').modal('show');
+	}
+	else if(reg.test(email.value) == false)
+	{
+		document.getElementById("msg").innerHTML="Please Enter Valid EmailID"
+		$('#myModal11').modal('show');
+	}
+	else if(mobile.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter MobileNo"
+		$('#myModal11').modal('show');
+	}
+	else if(mobile.value.length!=10)
+	{
+		document.getElementById("msg").innerHTML="Mobile number must be of 10 digit"
+		$('#myModal11').modal('show');
+	}
+	else if(password.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Password"
+		$('#myModal11').modal('show');
+	}
+	else if(confirm.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Confirm Password"
+		$('#myModal11').modal('show');
+	}
+	else if(password.value!=confirm.value)
+	{
+		document.getElementById("msg").innerHTML="Password and confirm password must be same"
+		$('#myModal11').modal('show');
+	}
+	else if(date.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Birth Date"
+		$('#myModal11').modal('show');
+	}
+	else if(skill.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Skills"
+		$('#myModal11').modal('show');
+	}
+	else if(experience.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Experience"
+		$('#myModal11').modal('show');
+	}
+	else if(exp_words.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Experience"
+		$('#myModal11').modal('show');
+	}
+	else if(x[1]!='png' && x[1]!='jpeg' && x[1]!='jpg' && x[1]!='bmp' && file.value!='')
+	{
+		document.getElementById("msg").innerHTML="Image must be in form of jog/jpeg/png/bmp"
+		$('#myModal11').modal('show');
+	}
+	else if(y[1]!='pdf' && y[1]!='doc' && cv.value!='')
+	{
+		document.getElementById("msg").innerHTML="File must be in form of pdf/doc"
+		$('#myModal11').modal('show');
+	}
+	else{
+		  $.post("/validate_email_expert",
+        {
+		  email:email.value,
+        },
+		function(data,status){
+			if(data=="wrong")
+			{
+				document.getElementById("msg").innerHTML="EmailID is already exist."
+				$('#myModal11').modal('show');
+			}
+			else{
+				$('#successModal').modal('show');
+			}
+			
+        }
+        );	
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                    document.form1.submit();
+                }, 2000));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				</h2>
+		    </div>
+			<div class="validation-system">
+ 		
+ 		<div class="validation-form">
+ 	<!---->
+  	    
+        <form action="{{ url_for('add_expert_1') }}" method="POST" enctype="multipart/form-data" name="form1">
+         	<div class="vali-form">
+            <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Firstname</label>
+              <input type="text" placeholder="FirstName" id="fname1" name="fname">
+            </div>
+            <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Middlename</label>
+              <input type="text" placeholder="MiddleName" id="mname1" name="mname">
+            </div>
+			 <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Lastname</label>
+              <input type="text" placeholder="LastName" id="lname1" name="lname">
+            </div>
+           
+            </div>
+            
+            <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Email</label>
+              <input type="text" placeholder="Email" id="email1" name="email">
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Mobile No</label>
+              <input type="text" placeholder="Mobile No" id="mobile1" name="mobile">
+            </div>
+			<div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Create a password</label>
+              <input type="password" placeholder="Create a password" id="pass1" name="password">
+            </div>
+            <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Confirm password</label>
+              <input type="password" placeholder="Confirm password" id="cpass1" name="cpassword">
+            </div>
+			<div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Gender</label><br /><br />
+              <input type="radio" name="gn" value="Male" checked>Male</input>&nbsp;&nbsp;<input type="radio" required=""value="Female" name="gn">Female</input>
+            </div>
+			<div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Date Of Birth</label>
+             <input type="date" class="form-control1 ng-invalid ng-invalid-required" ng-model="model.date" name="date" id="date1">
+            </div>
+            <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Skills</label>
+              <textarea  placeholder="Skills....." id="skill1" name="skill"></textarea>
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Total Experience</label>
+              <input type="number" name="experience" id="total_experience1" max="20">
+            </div>
+			<div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Profile Pic</label>
+              <input type="file" name="file" id="file1">
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Experience in Words</label>
+              <textarea  placeholder="Experience..." id="experience_in_words1" name="experience_words"></textarea>
+            </div>
+			<div class="col-md-12 form-group1 group-mail">
+              <label class="control-label">Add CV</label>
+              <input type="file" name="cv" id="cv1">
+            </div>
+            <div class="col-md-12 form-group">
+              <button type="button" class="btn btn-primary" onclick="add_data()">Submit</button>
+              <button type="reset" class="btn btn-default">Reset</button>
+            </div>
+          <div class="clearfix"> </div>
+        </form>
+    
+ 	<!---->
+ </div>
+
+</div>
+<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Data has been added Successfully
+                </div>
+            </div>
+        </div>
+    </div>	
+		
+{% endblock %}

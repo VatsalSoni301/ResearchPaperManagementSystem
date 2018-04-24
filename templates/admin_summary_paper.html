@@ -1,0 +1,103 @@
+{% extends 'admin_base.html' %}
+			{% block head %}
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+.xyz
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+</style> 
+</head>
+{% endblock %}
+{% block body %}
+ 
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				<a href="/admin_pending">Pending Papers</a>/{{name}}
+			
+				</h2>
+		    </div>
+		<div class="grid-form">
+ 		
+ <div class="grid-form1">
+		 <div class="col-md-4 form-group"></div>
+		<div class="col-md-4 form-group">
+			{% if 6 in sst or 7 in sst %}
+				<a href="{{url_for('admin_review_comment',pp_id=p_id)}}" class="btn-primary btn">Review Comment</a>
+            {% endif %}
+            </div>
+		<div class="col-md-4 form-group"></div>
+	<table border="1" style="overflow-x:auto;" class="xyz">
+ 	<tr>
+	<th style="text-align: center; width:10%">Submission No</th>
+ 		<th style="text-align: center;">Papers</th>
+
+ 	</tr>
+ 	
+ 	{% for item in s %}
+ 	<tr>
+	<td style="text-align:center;">{{item['count']}}</td>
+		<td>
+			<ul style="text-align:left;list-style: none;">
+				<li><a href="{{url_for('admin_submission_details',s_id=item['id'],mode='summary',p_id=p_id)}}">Title:&nbsp {{item['title']}}</a></li>
+				<li><b>Reviewer</b></li>
+				<li>
+				{% for item1 in d %}
+					{% if item1['id']==item['id'] %}
+				<ul style="text-align:left;list-style: none;">
+					
+				<li>		Name:&nbsp {{item1['name']}} </li>
+				<li>		Comment:&nbsp  {{item1['comment']}} </li>
+				<li>		Status:&nbsp  {{item1['status']}} </li>
+				</br>
+				
+					
+				</ul>
+					{% endif %}
+				{% endfor %}
+				</li>
+				<li>
+					{% for item2 in a %}
+					{% if item2['id']==item['id'] %}
+					<ul style="text-align:left;list-style: none;">
+				<li>		<b>Admin Comment:</b>&nbsp  {{item2['comment']}} </li>
+				</br>
+				
+					
+				</ul>
+					{% endif %}
+				{% endfor %}
+				</li>
+				
+			</ul>
+		</td>	
+
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+
+  </div>
+
+ 	</div>
+	{% endblock %}
+

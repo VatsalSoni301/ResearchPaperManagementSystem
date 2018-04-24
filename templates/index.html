@@ -1,0 +1,376 @@
+{% extends 'home_base.html' %}
+{% block head %}
+<head>
+		<style type="text/css">
+			#containerxyz {
+			  overflow: hidden;
+			  width: 1100px;
+			  height: 250px;
+			  margin: 0 auto;
+			  cursor: pointer;
+			  
+			}
+			
+			#imgs {
+			  display: block;
+			  padding: 0;
+			  width: 200%;
+			}
+			
+			#imgs li {
+			  padding-right: 10px;
+			  display: inline-block;
+			 *display:inline;
+			}
+			
+			#imgs img {
+			  width: 180px;
+			  height: 150px;
+			}
+			
+			.title {
+			  display: block;
+			  width: 100%;
+			  height: 38px;
+			  line-height: 38px;
+			  font-weight: bold;
+			  text-align: left;
+			}
+			</style>
+<script>
+	function ff()
+	{
+		document.getElementById("search_global1").focus();
+	}
+function add_data(){
+	
+	var email=document.getElementById("email1")
+	var password=document.getElementById("pass1")
+	var role1=document.getElementById("role1")
+	var role2=document.getElementById("role2")
+	var rolex;
+	if(role1.checked)
+	{
+		rolex=role1.value;
+	}
+	else{
+		rolex=role2.value;
+	}
+	 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	 
+	if(email.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter EmailID"
+		$('#myModal11').modal('show');
+	}
+	else if(reg.test(email.value) == false)
+	{
+		document.getElementById("msg").innerHTML="Please Enter Valid EmailID"
+		$('#myModal11').modal('show');
+	}
+	else if(password.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Password"
+		$('#myModal11').modal('show');
+	}
+	else{
+		
+		$.post("/signin_1",
+        {
+          email:email.value,
+		  password:password.value,
+		  role:rolex
+        },
+		function(data,status){
+			if(data=="wrong")
+			{
+				document.getElementById("msg").innerHTML="Unauthorized user"
+				$('#myModal11').modal('show');
+			}
+			else{
+				// $('#successModal').modal('show');
+				document.form1.submit();
+			}
+			
+        }
+        );
+	}	
+	
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                    document.form1.submit();
+                }, 1000));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+	<!-- //banner --> 
+<!--//Header-->
+<!-- //Modal1 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+		<!-- Modal1 -->
+		<div class="modal-dialog">
+			<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4>Signin</h4>
+							
+					
+<div class="container">
+  <form action="{{ url_for('temp_1') }}" method="post" name="form1">
+  
+  <div class="col-md-8 form-group ">
+              <!-- <label>Member</label> &nbsp;&nbsp; -->
+              <input type="radio" name="role" value="user"  id="role1" checked>User</input>
+			  &nbsp;&nbsp;<input type="radio" value="expert" id="role2" name="role">Reviewer</input>
+            </div>
+  
+  
+  
+ 
+    <div class="input-group" style="width:45%">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+      <input id="email1" type="text" class="form-control" name="email" placeholder="Email">
+    </div>
+	
+
+    <div class="input-group" style="width:45%">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+      <input id="pass1" type="password" class="form-control" name="password" placeholder="Password">
+    </div>
+    
+	<input type="button" class="btn btn-primary" value="Signin" onclick="add_data()" > 
+	</br><hr class="style17"></br></br>
+	<div class="input-group">
+	<a href="/google" class="fa fa-google  fa-2x" style="color:white;background: #dd4b39;padding:10px"></a>
+	</div> 
+	
+	<div class="input-group"><p>Do not have an account?</p>
+		<a href="/user_sign_up">Signup</a>		
+     </div>
+	   
+	 <div class="input-group"><a  href="/password">Forget Password?</a>	
+      </div>  
+	  
+	  
+  </form>
+   
+</div>							
+		</div>
+				</div>
+		</div>
+	</div>
+<!-- //Modal1 -->
+<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+<!-- /about -->
+</br>
+ 	<div>
+		<div class="container">
+				<div>
+					<h3 class="tittle">Introduction</h3>
+					<div class="border"></div>
+				</div> </br>
+               <p class="about-para-w3ls">
+			   The International Journal of Next-Generation Computing (IJNGC) 
+is a peer-reviewed journal aimed at providing a platform for researchers
+ to showcase and disseminate high-quality research in the domain of next-generation 
+ computing. With the introduction of new computing paradigms such as cloud computing,
+ IJNGC promises to be a high-quality and highly competitive 
+dissemination forum for new ideas, technology focus, research results and sicussions in these areas.
+			   
+			   
+			   </p>
+				 <img src="/static/static_1/images/paper.jpg" class="img-responsive" alt="Hair Salon"> 
+		    </div>
+		   
+		</div>
+	
+<!-- //about -->
+</br>
+<!--welcome-->
+				<div class="ser1vice-w3l">
+					<div class="container">
+					<div class="w3layouts_head">
+						<h3 class="tittle"> Our Services</h3>
+						<div class="border"></div>
+					</div>
+						<div class="service-grids">
+							<div class="col-md-3 ser-grid">
+								<div class="ser-top">
+									<div class="con hvr-shutter-in-horizontal">
+										<i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+									</div>
+									<a onclick="ff()" href="#"><h4>Search</h4></a>
+									<p>Find the research you need to help your work and join open discussions with reviewers.</p>
+								</div>
+							</div>
+							
+							<div class="col-md-3 ser-grid">
+								<div class="ser-top">
+									<div class="con hvr-shutter-in-horizontal">
+										<i class="glyphicon glyphicon-time" aria-hidden="true"></i>
+									</div>
+									<a href="#" data-toggle="modal" data-target="#myModal"><h4>Submit Paper</h4></a>
+									<p>User can submit their research papers and they are reviwed by our reviewer.</p>
+								</div>
+							</div>
+							<div class="col-md-3 ser-grid">
+								<div class="ser-top">
+									<div class="con hvr-shutter-in-horizontal">
+										<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
+									</div>
+									<a href="#" data-toggle="modal" data-target="#myModal"><h4>Re-Submission</h4></a>
+									<p>user can also re-submit their paper by following comments which are given by reviewer.</p>
+								</div>
+							</div>
+							<div class="col-md-3 ser-grid">
+								<div class="ser-top">
+									<div class="con hvr-shutter-in-horizontal">
+										<i class="glyphicon glyphicon-bell" aria-hidden="true"></i>
+									</div>
+									<a href="#" data-toggle="modal" data-target="#myModal"><h4>Review Process</h4></a>
+									<p>Each paper is review by many reviewer and then accordingly to their comments, paper is accept or reject.</p>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+				
+					</div>
+				</div>
+				</br>
+				<!-- Counter -->
+<div class="stats">
+	<div class="container">	
+		<div class="row">
+			<div class="col-md-4 col-sm-3 stats-grid stats-grid-3 gridw3">
+				<i class="fa fa-trophy" aria-hidden="true"></i>
+				<div class="numscroller" data-slno='1' data-min='0' data-max={{e}} data-delay='3' data-increment="1">{{e}}</div>
+				<h4>Reviewer </h4>
+			</div>
+			<div class="col-md-4 col-sm-3 stats-grid stats-grid-3 gridw3">
+				<i class="fa fa-laptop" aria-hidden="true"></i>
+				<div class="numscroller" data-slno='1' data-min='0' data-max={{p}} data-delay='3' data-increment="1">{{p}}</div>
+				<h4>Research Paper</h4>
+			</div>
+			<div class="col-md-4 col-sm-3 stats-grid stats-grid-4 gridw3">
+				<i class="fa fa-users" aria-hidden="true"></i>
+				<div class="numscroller" data-slno='1' data-min='0' data-max={{u}} data-delay='3' data-increment="1">{{u}}</div>
+				<h4>User</h4>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<!-- //Counter -->
+
+
+<!-- news -->
+</br>
+	<div class="w3-nes"> 
+		<div class="container"> 
+			<div class="w3layouts_head">
+				<h3 class="tittle">Latest Activities</h3>
+					<div class="border"></div>
+				</div>
+				
+				
+					
+				{% for item in arry %}
+			<div class="news-info">			
+				<div class="col-md-6 event-grids">
+					<div class="w3layouts-text">
+						<h4>{{item['day']}}<span>{{item['month']}}</span></h4>
+						 <h6><a>{{item['desc']}}</a></h6>
+						<div class="clearfix"> </div>
+					</div>
+					<!-- <p>{{item['desc']}} </p>  -->					
+				</div>				
+			</div>							
+				{% endfor %}		
+				{% if c>=4 %}
+					<a href="/read_more">Read More>>..</a>
+				{% endif %}
+		</div> 
+	</div> 
+	<!-- //news -->
+	<div id="containerxyz"> <span class="title">Title</span>
+		<ul id="imgs">
+		  <li><img src="https://unsplash.it/800/600?image=489" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=488" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=487" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=486" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=485" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=484" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=484" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=484" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=484" alt="" /></li>
+		  <li><img src="https://unsplash.it/800/600?image=483" alt="" /></li>
+		</ul>
+		
+	</div>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script> 
+	<script type="text/javascript" src="/static/js/ImageScroll.js"></script> 
+	<script type="text/javascript">
+
+  $('#imgs').imageScroll({
+    orientation:"left",
+    speed:600,
+    interval:1000,
+    hoverPause:true,
+    callback:function(){
+      var ordinal = $(this).find("img").first().attr("src");
+      // console.log(ordinal);
+     // $(this).next("span").text("CallbackDisplay: hidden "+ordinal+"!");
+    }
+  });
+
+  </script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	  </br>
+	  <div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Success
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

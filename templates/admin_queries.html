@@ -1,0 +1,140 @@
+
+{% extends 'admin_base.html' %}
+			{% block head %}
+<head>
+<title>Admin</title>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style> 
+<script>
+function chk()
+{
+	var dd=document.getElementsByName("query");
+	var okay=false;
+	for(var i=0;i<dd.length;i++)
+	{
+		if(dd[i]!=0)
+		{
+			okay=true;
+			break;
+		}
+	}
+	if(okay==false){
+		document.getElementById("msg").innerHTML="Please Select Queries for deletion"
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		document.getElementById("msg1").innerHTML="Deleted Successfully"
+		$('#successModal').modal('show');
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+					document.form1.submit();
+                }, 1500));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				</h2>
+		    </div>
+			<div class="grid-form">
+ 		
+ <div class="grid-form1">
+ <form name="form1" method="POST" action="{{url_for('admin_query_1')}}">
+ <div style="overflow-x:auto;">
+ <table border="1" style="overflow-x:auto;">
+ 	<tr>
+ 		<th style="text-align: center;">Sr.No</th>
+ 		<th style="text-align: center;">Queries</th>
+		<th style="text-align: center;">Delete</th>
+ 	</tr>
+ 	
+ 	{% for item in arry %}
+ 	<tr>
+ 		<td></td>
+ 		<td>
+		<ul style="text-align:left;list-style: none;">
+		<li>Name: {{item['name']}}</li>
+		<li>Email: {{item['email']}}</li>
+		<li>Mobile: {{item['mobile']}}</li>
+		<li>Message: {{item['message']}}</li>
+		</ul>
+		</td>
+		<td><input type="checkbox" value="{{item['id']}}" name="query"></td>
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+ </div>
+ <br />
+ <center><input type="button" value="Delete" onclick="chk()" class="btn-primary btn"></center>
+ </form>
+ 
+	
+  </div>
+
+ 	</div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="msg1"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+{% endblock %}
+

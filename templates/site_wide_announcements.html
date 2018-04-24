@@ -1,0 +1,135 @@
+{% extends 'admin_base.html' %}
+{% block head %}
+<head>
+<script>
+function add2345()
+{
+	var ann=document.getElementById("Aname_site_1").value;
+	if(ann=='')
+	{
+		document.getElementById("msg").innerHTML="Please Write Announcements"
+		$('#myModal11').modal('show');
+	}
+	
+	else{
+		
+			document.getElementById("msg11").innerHTML="Send Successfully"
+			$('#successModal1').modal('show');
+	}
+}
+$(function () {
+            $('#successModal1').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+					document.form1.submit();
+                }, 1000));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+<div class="banner">
+		   
+				<h2>
+				{{name}}
+			
+				</h2>
+		    </div>
+<div class="grid-form">	
+ <div class="grid-form1">
+	<form class="form-horizontal" method="POST" name="form1" action="{{url_for('admin_announcements_2')}}">
+  	       <h3>Add Announcement</h3>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+							
+								<div class="form-group mb-n">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Announcement Description</label>
+									<textarea name="Aname_site" id="Aname_site_1" rows="5" class="col-md-8"  placeholder="Announcement..." ></textarea>
+								</div>
+								
+						</div>
+					</div>
+		
+      <div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="button" value="Add" class="btn-primary btn" onclick="add2345()">
+			</div>
+		</div>
+	 </div>
+   </form>
+  </div>
+ 	</div>
+
+<div class="grid-form">	
+ <div class="grid-form1">
+	<form class="form-horizontal" method="POST" >
+  	       <h3>Delete Announcement</h3>
+  	       		
+			<div class="inbox-mail">
+	
+<!-- tab content -->
+<div class="col-md-12 tab-content tab-content-in">
+<div class="tab-pane active text-style" id="tab1" >
+  <div class="inbox-right"  style="border:0">
+         	
+            <div class="mailbox-content">
+              
+                <table class="table">
+                    <tbody>
+					{% for i in arr1 %}
+                        <tr class="table-row">
+                           
+                            <td class="table-text">
+                            	<h6>{{i['dec']}} </h6>
+                                 <p>{{i['date']}}</p>
+                            </td>
+							 <td>
+                            	<a href="{{url_for('delete_site_announcement', id=i['a_id'])}}"><span class="fam">Delete</span></a>
+                            </td>                                      
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+               </div>
+            </div>
+</div> 
+</div>
+<div class="clearfix"> </div>
+   </div>
+			
+			
+	
+   </form>
+  </div>
+ 	</div>	
+
+	<div id="successModal1" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="msg11"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+{% endblock %}	
+	

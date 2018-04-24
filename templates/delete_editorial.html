@@ -1,0 +1,82 @@
+{% extends 'admin_base.html' %}
+{% block head %}
+<head>
+<script>
+    function delEditorial(obj)
+    {
+        ans=obj.id
+        if (confirm("Are you sure want to delete?")) {
+            $.post("/delete_editorial_1",
+            {
+            id:ans
+            },
+            function(data,status){
+                $( "#main_ref" ).load(window.location.href + " #main_ref" );
+        }
+            );
+        } else {
+        
+        }
+    }
+</script>
+</head>
+ {% endblock %}
+{% block body %}
+
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+			
+				</h2>
+		    </div>
+		
+<div class="grid-form">	
+  <div class="grid-form1">
+ <div class="inbox-mail">
+	
+<!-- tab content -->
+<div class="col-md-12 tab-content tab-content-in">
+<div class="tab-pane active text-style" id="tab1" >
+  <div class="inbox-right"  style="border:0">
+         	
+            <div class="mailbox-content" id="main_ref">
+              
+                <table class="table">
+                    <tbody>
+					{% for i in arry %}
+                        <tr class="table-row">
+                            <td class="table-img">
+                               <img src="/static/Img/{{i['pic']}}" alt="" style="height:60px;width:60px"/>
+                            </td>
+                            <td class="table-text">
+                            	<h6>{{i['fname']}} &nbsp {{i['mname']}} &nbsp {{i['lname']}}  &nbsp ({{i['designation']}})  </h6>
+                                <p>{{i['desc']}}</p>
+                            </td>
+                            <td>
+                            	<a href="{{url_for('edit_editorial', id=i['id'])}}"><span class="fam">Edit</span></a>
+                            </td>
+							 <td>
+                            	<a  name="del1" id="{{i['id']}}" onclick="delEditorial(this)"><span class="fam">Delete</span></a>
+                            </td>
+                          
+                 
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+               </div>
+            </div>
+</div>
+
+
+ 
+ 
+</div>
+<div class="clearfix"> </div>
+   </div>
+	 </div> 
+	 </div>			
+{% endblock %}
+

@@ -1,0 +1,83 @@
+
+{% extends 'admin_base.html' %}
+			{% block head %}
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style> 
+</head>
+{% endblock %}
+{%  block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{% if mode=="expert" %}
+					{% set abc='expert_' %}
+					<a href="/list_experts">List Of Reviewers</a>/{{name}}
+				{% else %}
+					{% set abc='user_' %}
+					<a href="/list_users">List Of Users</a>/{{name}}
+				{% endif %}
+				</h2>
+		    </div>
+			<div class="grid-form">
+ 		
+ <div class="grid-form1">
+ <table border="1" style="overflow-x:auto;">
+ 	<tr>
+ 		<th style="text-align: center;">Sr.No</th>
+ 		<th style="text-align: center;">Title</th>
+		<th style="text-align: center;">Creation Date</th>
+		<th style="text-align: center;">Last Modified Date</th>
+		<th style="text-align: center;">Status</th>
+ 	</tr>
+ 	
+ 	{% for item in k %}
+ 	<tr>
+ 		<td></td>
+ 		<td>
+		{% if abc=='expert_' %}
+		<a href="{{url_for('admin_paper_details',p_id=item['paper_id'],mode=abc,e_id=eid)}}">{{item['title']}}</a>
+		{% else %}
+		<a href="{{url_for('admin_paper_details',p_id=item['paper_id'],mode=abc,u_id=uid)}}">{{item['title']}}</a>
+		{% endif %}
+		</td>
+		<td>{{item['creation_date']}}</td>
+		<td>{{item['last_modified_date']}}</td>
+		<td>{{item['status']}}</td>
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+	
+  </div>
+
+ 	</div>
+		
+{% endblock %}

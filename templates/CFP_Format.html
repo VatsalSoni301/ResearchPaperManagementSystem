@@ -1,0 +1,317 @@
+{% extends 'home_base.html' %}
+{% block head %}
+<head>
+<script>
+function add_data(){
+	
+	var email=document.getElementById("email1")
+	var password=document.getElementById("pass1")
+	var role1=document.getElementById("role1")
+	var role2=document.getElementById("role2")
+	var rolex;
+	if(role1.checked)
+	{
+		rolex=role1.value;
+	}
+	else{
+		rolex=role2.value;
+	}
+	 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	if(email.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter EmailID"
+		$('#myModal11').modal('show');
+	}
+	else if(reg.test(email.value) == false)
+	{
+		document.getElementById("msg").innerHTML="Please Enter Valid EmailID"
+		$('#myModal11').modal('show');
+	}
+	else if(password.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Password"
+		$('#myModal11').modal('show');
+	}
+	else{
+		
+		$.post("/signin_1",
+        {
+          email:email.value,
+		  password:password.value,
+		  role:rolex
+        },
+		function(data,status){
+			if(data=="wrong")
+			{
+				document.getElementById("msg").innerHTML="Unauthorized user"
+				$('#myModal11').modal('show');
+			}
+			else{
+				document.form1.submit();
+			}
+			
+        }
+        );
+	}	
+	
+}
+</script>
+{% endblock %}
+</head>
+{% block body %}
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+		<!-- Modal1 -->
+		<div class="modal-dialog">
+			<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4>Signin</h4>
+							
+					
+<div class="container">
+  <form action="{{ url_for('temp_1') }}" method="post" name="form1">
+  
+  <div class="col-md-8 form-group ">
+              <!-- <label>Member</label> &nbsp;&nbsp; -->
+              <input type="radio" name="role" value="user"  id="role1" checked>User</input>
+			  &nbsp;&nbsp;<input type="radio" value="expert" id="role2" name="role">Reviewer</input>
+            </div>
+  
+   <!-- <div class="input-group" style="width:45%">
+   <select name="role" id="role1" class="form-control">										
+	
+		<option value="expert">Expert</option>
+		<option value="user" selected>User</option>
+		</select>
+    </div> -->
+  
+ 
+    <div class="input-group" style="width:45%">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+      <input id="email1" type="text" class="form-control" name="email" placeholder="Email">
+    </div>
+	
+
+    <div class="input-group" style="width:45%">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+      <input id="pass1" type="password" class="form-control" name="password" placeholder="Password">
+    </div>
+    
+	<input type="button" class="btn btn-primary" value="Signin" onclick="add_data()" > 
+	</br><hr class="style17"></br></br>
+	<div class="input-group">
+	<a href="/google" class="fa fa-google  fa-2x" style="color:white;background: #dd4b39;padding:10px"></a>
+	</div> 
+	
+	<div class="input-group"><p>Do not have an account?</p>
+		<a href="/user_sign_up">Signup</a>		
+     </div>
+	   
+	 <div class="input-group"><a  href="/password">Forget Password?</a>	
+      </div>  
+	  
+	   
+  </form>
+   
+</div>							
+							</div>
+				</div>
+		</div>
+	</div>
+	</br>
+	<!-- start-->
+	<div>
+		<div class="container">
+		
+				<div>
+		
+					<h3 class="tittle"> Call for Papers</h3>
+						<div class="border"></div>
+				</div>
+	
+	<!-- intro start -->	
+				<div class="contact-infom">
+				<h4 style="color:#f36371">Intoduction</h4>
+				<p>IJNGC, ISSN: 2229-4678 (Print) and 0976-5034 (Online), 
+				is a peer-reviewed journal aimed at providing a platform for
+				researchers to disseminate and share their high-quality
+				research in the domain of next-generation computing. 
+				Some of the broad areas covered by the journal are Cloud 
+				Computing, Peer-to-Peer Computing/Networks, Grid Computing,
+				Evolutionary Computing, Autonomic Computing, Bio-Inspired Systems,
+				Networks Storage Systems, Sensor technology, Pervasive Computing,
+				Mobile Computing, Agent-Based Systems, Algorithms for Parallel 
+				Computing, Enterprise Computing, Security and Intrusion Resilience,
+				Continuous Event Processing, Virtualization, Smart Environments,
+				Dynamic Distributed Systems among others. 
+				</br></br>
+				The journal is approved for indexing in ESCI (Thomson Reuters), 
+				DBLP, INSPEC, EBSCOHost and Google Scholar.
+				
+				</br></br>
+				You have to submit paper in the given format only otherwise your paper will be rejected.
+				<a href="/static/Expert_CV/format.pdf" target="_blank">Paper format</a>
+				</br></br>
+				Here, we give important guideline which is helpful for you.
+				<a href="/static/Expert_CV/format.pdf" target="_blank">Author Guideline</a>
+				</p>
+				</div>	
+<!-- intro end -->
+
+
+<!-- notes start -->
+<div class="contact-infom">
+				<h4 style="color:#f36371">Notes</h4>
+<div class="bs-docs-example">
+				<table class="table table-hover">
+					<!-- <thead>
+						<tr>
+						  <th>No</th>
+						  <th>Name</th>
+						   <th>Skill</th>
+						    <th>Experience</th>
+						 
+						</tr>
+					</thead> -->
+					<tbody>
+						<tr>
+						  <td>1</td>
+						 <td>High-quality papers conforming to the scope of the journal are solicited.</td>
+						  
+						</tr>
+						<tr>
+						  <td>2</td>
+						  <td>Several categories of papers are published including full papers
+						  (original research), review and position papers and short-papers 
+						  (which present innovative ideas with or without early results).</td>
+						</tr>
+						<tr>
+						  <td>3</td>
+						    <td>Peer Review Process: All submitted papers 
+							are reviewed by area of reviewers for their relevance, 
+							originality, presentation and significance. The review 
+							process is expected to take 12 weeks at the end of which
+							the final review decision is communicated to the author.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+<!-- notes end -->		
+
+<!-- Coverage Area start -->
+<div class="typ1o">
+		<div class="contact-infom">
+				<h4 style="color:#f36371">Coverage Area</h4>
+			
+	<div class="bs-docs-example">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+						  <th>No</th>
+						  <th>Name</th>
+						 
+						</tr>
+					</thead>
+					<tbody>
+					{% for i in arry %}
+						<tr>
+						  <td>{{i['id']}}</td>
+						  <td>{{i['track']}}</td>
+						  
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+	</div>
+			
+		</div>
+	<!-- Coverage Area end -->	
+		
+	<!-- Type Of paper start -->	
+
+	<div class="typ1o">
+		<div class="contact-infom">
+				<h4 style="color:#f36371">Type Of Paper</h4>
+			
+	<div class="bs-docs-example">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+						  <th>No</th>
+						  <th>Content</th>
+						 
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+						  <td>1</td>
+						  <td>Original research</td>
+						  
+						</tr>
+						<tr>
+						  <td>2</td>
+						  <td>Position papers/review papers</td>
+						 
+						</tr>
+						<tr>
+						  <td>3</td>
+						  <td>Short-papers (with well-defined ideas, but lacking research results or having preliminary results)</td>
+						</tr>
+						<tr>
+						  <td>4</td>
+						  <td>Technology Discussion/Overview Papers</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	</div>
+			
+		</div>
+<!-- Type Of paper end -->	
+		
+<!-- preview start -->	
+				<div class="contact-infom">
+				<h4 style="color:#f36371">Peer Review Process</h4>
+				<p>
+				All submitted papers are subjected to a comprehensive blind 
+				review process by at least 2 subject area of reviewers, 
+				who judge the paper on its relevance, originality, 
+				clarity of presentation and significance.
+				The review process is expected to take 8-12 
+				weeks at the end of which the final review 
+				decision is communicated to the author. 
+				In case of rejection authors will get 
+				helpful comments to improve the paper f
+				or resubmission to other journals.
+				The journal may accept revised papers as new papers which will go 
+				through a new review cycle
+				</p>
+				</div>	
+<!-- preview end -->
+
+
+
+
+	</div>
+	</div>
+   </br>
+   <div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+{% endblock %}

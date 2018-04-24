@@ -1,0 +1,141 @@
+{% extends 'admin_base.html' %}
+			{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{% if mode=="Search" %}
+				<a href="{{url_for('admin_search',search=search)}}">Search</a>/{{name}}
+				{% elif mode=="alloc" %}
+					<a href="/allocation">Allocation Of Paper</a>/{{name}}
+				{% elif mode=="expert_" %}
+					<a href="/list_experts">List Of Reviewers</a>/<a href="{{url_for('expert_details',e_id=eid,mode='expert')}}">Paper Of Reviewer</a>/{{name}}
+				{% elif mode=="user_" %}
+					<a href="/list_users">List Of Users</a>/<a href="{{url_for('admin_user_details',u_id=uid,mode='user')}}">Paper Of User</a>/{{name}}
+				{% elif mode=="new" %}
+					<a href="/admin_new">New Papers</a>/{{name}}
+				{% elif mode=="summary" %}
+					<a href="/admin_pending">Pending Papers</a>/<a href="{{url_for('admin_summary_paper',p_id=p_id)}}">Summary Of Paper</a>/{{name}}
+				{% elif mode=="archived" %}
+					<a href="/admin_archived">Archived Papers</a>/<a href="{{url_for('issue_paper_list',i_id=i_id)}}">List Of Paper</a>/{{name}}
+				{% elif mode=="author_paper" %}
+				<a href="/admin_authors">List Of Authors</a>/<a href="{{url_for('author_paper_details',a_id=a_id)}}">Paper associated with author</a>/{{name}}
+					{% endif %}
+				</h2>
+		    </div>
+		<div class="grid-form">
+ 		
+  <div class="grid-form1">
+	<form class="form-horizontal">
+  	       <h3>Research Paper</h3>
+  	         <div class="tab-content">
+						<div class="tab-pane active" id="horizontal-form">
+								
+								 <div class="form-group mb-n">
+							<label class="col-md-2 control-label">Title</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{arr[1]}}">
+							</div>
+							</div> 
+							
+							<div class="form-group mb-n">
+							<label class="col-md-2 control-label">Track</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{track}}">
+							</div>
+							</div> 
+							
+							<div class="form-group mb-n">
+							<label class="col-md-2 control-label">Subject</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control1" readonly="" value="{{sub}}">
+							</div>
+							</div> 
+								
+								
+									<div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Keyword</label>
+									<div class="col-sm-8">&nbsp
+										{% for x in keyw %}
+												<div class="checkbox-inline"><label><input type="checkbox" name="key" 
+												
+													checked
+												disabled > {{x['name']}}</label></div>
+										
+											{% endfor %}
+										
+										
+									</div>
+								</div>
+								</div>
+								<div class="form-group">
+									<label for="txtarea1" class="col-sm-2 control-label">Abstract</label>
+									<div class="col-md-8"><textarea cols="70" rows="10" readonly="">{{arr[2]}}</textarea></div>
+								</div>
+						
+					</div>
+		
+						<div class="panel-body">
+						
+						  <div class="form-group mb-n">
+							<label class="col-md-2 control-label">Document</label>
+							<div class="col-md-8">
+							
+						 	<a href="/static/Paper/{{arr[4]}}"  class="btn-primary btn" target="_blank"> 
+							 Download
+								</a>  
+							<!--<button type="button" class="btn-primary btn" data-toggle="modal" data-target="#myModal">Preview</button>-->
+							{% if mode=="expert_" %} 
+							<a href="{{url_for('admin_show_comment_reviewer',p_id=pp_id,e_id=eid)}}" class="btn-primary btn"> 
+								Comment
+								 </a>  
+							{% endif %}
+							<!-- <button class="btn-primary btn">Download</button>  -->
+							</div>
+						</div> 
+						<!--  <div class="form-group mb-n">
+							<div class="col-md-4">
+
+							</div>
+							<div class="col-md-4">
+							<input type="submit" value="See Comments" class="btn-primary btn">
+							</div>
+							<div class="col-md-4">
+							</div>
+						</div> --> 
+						
+					</div>
+	<div class="bs-example" data-example-id="form-validation-states-with-icons">
+     
+      
+        <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
+      </div>
+    
+    </form>
+  </div>
+ 	</div>	
+	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Paper</h4>
+        </div>
+        <div class="modal-body" >
+			<div style="text-align: center;">
+				<iframe src="http://docs.google.com/gview?url=http://www.pdf995.com/samples/pdf.pdf&embedded=true" 
+style="width:500px; height:500px;" frameborder="0"></iframe> 
+</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>	
+	
+{% endblock %}
+

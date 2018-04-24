@@ -1,0 +1,196 @@
+{% extends 'admin_base.html' %}
+			{% block head %}
+
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style> 
+<script>
+function fun1(){
+	document.getElementById("hdd").value="accept"
+	var comment=document.getElementById("comment1")
+	if(comment.value!='')
+	{
+		document.getElementById("msg").innerHTML="If you want togive comment then please select comment option";
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}	
+}
+function fun2(){
+	document.getElementById("hdd").value="reject"
+	var comment=document.getElementById("comment1")
+	if(comment.value!='')
+	{
+		document.getElementById("msg").innerHTML="If you want togive comment then please select comment option";
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}	
+}
+function fun3(){
+	document.getElementById("hdd").value="rejectwithcomment"
+	var comment=document.getElementById("comment1")
+	if(comment.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Comment"
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}
+}
+function fun4(){
+	document.getElementById("hdd").value="acceptwithcomment"
+	var comment=document.getElementById("comment1")
+	if(comment.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Comment"
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}	
+}
+function fun5(){
+	document.getElementById("hdd").value="continuewithmodification"
+	var comment=document.getElementById("comment1")
+	if(comment.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Comment"
+		$('#myModal11').modal('show');
+	}
+	else
+	{
+		$('#successModal').modal('show');	
+	}
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                    document.form1.submit();
+                }, 2000));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				<a href="/admin_pending">Pending Papers</a>/<a href="{{url_for('admin_summary_paper',p_id=p_id)}}">Summary Of paper</a>/{{name}}
+			
+				</h2>
+		    </div>
+		<div class="grid-form">
+ 		
+ <div class="grid-form1">
+ <form method="POST" action="{{ url_for('admin_review_comment_1',p_id=p_id,s_id=s_id) }}" name="form1">
+	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+	<th style="text-align: center; width:10%">Sr.No</th>
+ 		<th style="text-align: center;" >Papers</th>
+		<th>Send to User</th>
+ 	</tr>
+ 	
+ 	{% for item in k %}
+ 	<tr>
+	<td style="text-align: center;"></td>
+		<td>
+			<ul style="text-align:left;list-style: none;">
+				
+				<li>Comment:&nbsp {{item['comment']}}</li>				
+				<li>Status:&nbsp {{item['status']}}</li>
+			</ul>
+		</td>	
+		<td style="width:5%;">
+			<input type="checkbox" name="send" value="{{item['c_id']}}">
+		</td>
+ 	</tr>	
+	{% endfor %}
+	
+ </table>	
+	
+	
+	<input type="hidden" id="hdd" name="hdd">
+	<br /><br />
+		<div class="raw">
+				<label for="txtarea1" class="col-sm-2 control-label">Comment</label>
+				<div class="col-md-8"><textarea name="comment" id="comment1" placeholder="Write Comment..." cols="70" rows="4" ></textarea></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<input type="button"  name="submit1" value="Accept" class="btn-primary btn" onclick="fun1()">&nbsp;&nbsp;&nbsp;
+				<input type="button" name="submit2" value="Reject" class="btn-primary btn" onclick="fun2()">
+				<br /><br />
+				<input type="button" name="submit3" value="RejectWithComment" class="btn-primary btn" onclick="fun3()">
+				<input type="button" name="submit4" value="AcceptWithComment" class="btn-primary btn" onclick="fun4()">
+				<input type="button" name="submit5" value="ContinueWithComment" class="btn-primary btn" onclick="fun5()">
+			</div>
+		</div>
+	 </form>
+  </div>
+ 	</div>
+<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Reviewed
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

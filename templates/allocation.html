@@ -1,0 +1,311 @@
+
+{% extends 'admin_base.html' %}
+			{% block head %}
+<head>
+
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+</style> 
+<script>
+function anc(obj) {
+	var a=obj.id
+	
+    $.post("/admin_expert_personal_info",
+        {
+          e_id:a
+		  
+        },
+		function(data,status){
+			
+			document.getElementById("fname1").value=data.dd[1]
+			document.getElementById("lname1").value=data.dd[3]
+			document.getElementById("email1").value=data.dd[5]
+			document.getElementById("mobile1").value=data.dd[4]
+			document.getElementById("skill1").value=data.dd[9]
+			document.getElementById("tt1").value=data.dd[10]
+			document.getElementById("exp1").value=data.dd[11]
+			$('#myModal2').modal('show');
+        }
+        );
+}
+</script>
+<script type="text/javascript">
+var arr=[];
+var i=0;
+function add()
+{
+	<!-- var arr=[]; -->
+	var id=document.getElementsByName("expert_name");
+	var ab=document.getElementById("temp_1").value;
+	var abx=ab.split(",")
+	
+	for(var j=0;j<id.length;j++)
+	{
+		if(id[j].checked)
+		{
+			var w=0;
+			for(var x=0;x<abx.length;x++)
+			{
+				if(abx[x]==id[j].value)
+				{
+					w=w+1
+				}
+			}
+			if(w==0)
+			{
+				arr[i]=id[j].value;
+				i=i+1;
+			}
+			
+		}
+	}
+	for(var j=0;j<id.length;j++)
+	{
+			
+			if(!id[j].checked)
+			{
+					for(var x=0;x<arr.length;x++)
+					{
+						if(id[j].value==arr[x])
+						{
+							arr[x]=0;
+						}
+					}
+			}
+	}
+	document.getElementById("temp_1").value=arr;
+	
+}
+</script>
+<script type="text/javascript">
+function search1()
+{
+	var search=document.getElementById("search")
+	var abc=document.getElementById("temp_1")
+	
+   $.post("/search_allocation",
+        {
+          ss:search.value,
+		  arr1:abc.value
+		  
+        },
+		function(data,status){
+			
+			$('#refresh_div').html(data);
+        }
+        );
+} 
+function valthisform()
+{
+	
+    var abcd=document.getElementById("temp_1");
+	var checkboxs1=document.getElementsByName("papers_title");
+    var okay=false;
+	var okay1=false;
+	var xy=abcd.value.split(",")
+    for(var i=0;i<xy.length;i++)
+	{
+		if(xy[i]!=0)
+		{
+			okay=true;
+			break;
+		}
+	}
+	for(var i=0,l=checkboxs1.length;i<l;i++)
+    {
+        if(checkboxs1[i].checked)
+        {
+            okay1=true;
+            break;
+        }
+    }
+   if(okay1==false || okay==false){
+		document.getElementById("msg").innerHTML="Please Select Papers and Reviewers"
+		$('#myModal11').modal('show');
+   }
+   else
+   {
+		document.getElementById("msg1").innerHTML="Papers have been successfully allocated to Reviewers"
+		$('#successModal').modal('show');
+   }
+}
+$(function () {
+            $('#successModal').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+					document.form1.submit();
+                }, 2000));
+            });
+        });
+</script>
+</head>
+{% endblock %}
+{% block body %}
+ 
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				</h2>
+		    </div>
+		<div class="grid-form">
+ 		
+
+ <div class="grid-form1">
+	<form class="form-horizontal" method="POST" action="{{ url_for('allocation_1') }}" name="form1">
+	    
+  	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+ 		<th style="text-align: center;">Papers</th>
+ 		<th style="text-align: center;">Reviewers</th>
+ 	</tr>
+
+ 	<tr>
+		<td>
+		<table>
+			{% if x=='true' %}
+				No Unallocated Paper Found
+			{% endif %}
+			{% for item1 in k %}
+			<tr>
+			<td>
+			
+			<div class="checkbox-inline1" style="text-align:left"><label>
+			<input type="checkbox"  validate="required:true, minlength:1" name="papers_title" value="{{item1['id']}}">&nbsp <a href="{{url_for('admin_paper_details',p_id=item1['id'],mode='alloc')}}"> {{item1['title']}}
+			</a></label></div>
+		
+			</td>
+			</tr>
+			{% endfor %}
+			</table>
+		</td>
+ 		
+		<td>
+			<input type="text" id="search" placeholder="Search" onkeydown="search1()">
+			<div id="refresh_div">{% include '/search_allocation.html' %}</div>
+			<input type="hidden" id="temp_1" name="temp_12">
+		</td>	
+ 	</tr>		
+ </table>
+			 
+	 <div class="panel-footer">
+		<div class="row">
+			<div class="col-md-4">
+				
+			</div>
+			<div class="col-md-4">
+				<input type="button" value="Submit" class="btn-primary btn" onclick="valthisform()">
+				<!-- <button class="btn-default btn">Cancel</button> -->
+			</div>
+			<div class="col-md-4">
+				
+			</div>
+		</div>
+	 </div>
+    </form>
+  </div>
+
+ 	</div>
+<div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div id="successModal" class="modal fade">
+        <div class="modal-dialog" style="width:30%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="msg1"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+           <form>
+         	<div class="vali-form">
+            <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Firstname</label>
+              <input type="text" placeholder="FirstName" readonly="" name="fname" id="fname1">
+            </div>
+           
+			 <div class="col-md-4 form-group1 group-mail">
+              <label class="control-label">Lastname</label>
+              <input type="text" placeholder="LastName" readonly="" name="lname" id="lname1">
+            </div>
+           
+            </div>
+			<div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Email</label>
+              <input type="text" placeholder="Email" readonly="" name="email" id="email1">
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Mobile No</label>
+              <input type="text" placeholder="Mobile No" readonly="" name="mobile" id="mobile1">
+            </div>             
+
+			 
+            <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Skills</label>
+              <textarea  placeholder="Skills....." readonly="" name="skill" id="skill1"></textarea>
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Total Experience</label>
+			  <input type="number" max="20" name="total_experience" readonly="" id="tt1">
+            </div>
+			 <div class="col-md-8 form-group1 group-mail">
+              <label class="control-label">Experience in words</label>
+              <textarea  placeholder="Experience......." readonly="" name="experience_in_words" id="exp1"></textarea>
+            </div>
+			 
+            
+          <div class="clearfix"> </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+{% endblock %}
+

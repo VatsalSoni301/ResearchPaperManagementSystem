@@ -1,0 +1,466 @@
+<script>
+var counter=0;
+function add_author_details(){
+counter++;
+ 
+if(counter>5){
+			alert("no more than 5 ")
+}
+else{
+var name=document.getElementById("name").value;
+var email=document.getElementById("email").value;
+var designation=document.getElementById("designation").value;
+<!-- var institute=document.getElementById("institute").value; -->
+var department=document.getElementById("department").value;
+var city=document.getElementById("city").value;
+var country=document.getElementById("country").value;
+ 
+	 $.post("/author_details",
+        {
+		
+          name:name.toString(),
+		  email:email.toString(),
+		  designation:designation.toString(),
+		  <!-- institute:institute.toString(), -->
+		  department:department.toString(),
+		  city:city.toString(),
+		  country:country.toString()
+		  
+		 
+        },
+		function(data,status){
+		
+			a_arr=data.split("~")
+			<!-- alert(counter) -->
+			var mydiv11=document.getElementById('author_11');
+			var mydiv12=document.getElementById('author_12');
+			var mydiv13=document.getElementById('author_13');
+			var mydiv14=document.getElementById('author_14');
+			var mydiv15=document.getElementById('author_15');
+			
+			if(mydiv11.style.display == 'none'){			
+			mydiv11.style.display = 'block';
+			document.getElementById("author_id1").value=a_arr[0]
+			document.getElementById("author_1").value=a_arr[1]
+			}
+			
+			else if(mydiv12.style.display == 'none'){			
+			mydiv12.style.display = 'block';
+			document.getElementById("author_id2").value=a_arr[0]
+			document.getElementById("author_2").value=a_arr[1]
+			}
+			
+			else if(mydiv13.style.display == 'none'){				
+			mydiv13.style.display = 'block';
+			document.getElementById("author_id3").value=a_arr[0]
+			document.getElementById("author_3").value=a_arr[1]
+			}
+			
+			else if(mydiv14.style.display == 'none'){
+			mydiv14.style.display = 'block';
+			document.getElementById("author_id4").value=a_arr[0]
+			document.getElementById("author_4").value=a_arr[1]
+			}
+			
+			else if(mydiv15.style.display == 'none'){
+			mydiv15.style.display = 'block';
+			document.getElementById("author_id5").value=a_arr[0]
+			document.getElementById("author_5").value=a_arr[1]
+			}
+		}       
+        );	
+
+
+
+}
+
+   		
+}
+
+
+function get_author1_id(abc)
+{
+	var a_id=document.getElementById("author_id1").value;
+	
+	
+	
+	$.post("/delete_author",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			counter--;
+			alert(data)
+			document.getElementById("author_id1").value="";
+			document.getElementById("author_1").value="";
+			var mydiv=document.getElementById('author_11');
+			mydiv.style.display = 'none';
+        }
+        );
+}
+function get_author2_id(abc)
+{
+	var a_id=document.getElementById("author_id2").value
+	
+	
+	$.post("/delete_author",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			alert(data)
+			counter--;
+			document.getElementById("author_id2").value="";
+			document.getElementById("author_2").value="";
+			var mydiv=document.getElementById('author_12');
+			mydiv.style.display = 'none';
+        }
+        );
+}
+function get_author3_id(abc)
+{
+	var a_id=document.getElementById("author_id3").value
+	
+	
+	$.post("/delete_author",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			alert(data)
+			counter--;
+			document.getElementById("author_id3").value="";
+			document.getElementById("author_3").value="";
+			var mydiv=document.getElementById('author_13');
+			mydiv.style.display = 'none';
+        }
+        );
+}
+function get_author4_id(abc)
+{
+	var a_id=document.getElementById("author_id4").value
+	
+	
+	$.post("/delete_author",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			alert(data)
+			counter--;
+			document.getElementById("author_id4").value="";
+			document.getElementById("author_4").value="";
+			var mydiv=document.getElementById('author_14');
+			mydiv.style.display = 'none';
+        }
+        );
+}
+function get_author5_id(abc)
+{
+	var a_id=document.getElementById("author_id5").value
+	
+	
+	$.post("/delete_author",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			alert(data)
+			counter--;
+			document.getElementById("author_id5").value="";
+			document.getElementById("author_5").value="";
+			var mydiv=document.getElementById('author_15');
+			mydiv.style.display = 'none';
+        }
+        );
+}
+
+
+function get_author11_id(abc)
+{
+	var a_id=document.getElementById("author_id1").value
+	
+
+	$.post("/update_author_details",
+        {
+          a_id:a_id
+		
+        },
+		function(data,status){
+			alert(data)
+			arr=data.split("~")		
+			document.getElementById("a_id").value=arr[0]
+			document.getElementById("a_name").value=arr[1]
+			document.getElementById("a_email").value=arr[2]
+			document.getElementById("a_designation").value=arr[3]
+			document.getElementById("a_city").value=arr[4]
+			document.getElementById("a_country").value=arr[5]
+			document.getElementById("a_department").value=arr[6]
+				
+			 $('#myModal_2').modal('show');
+        }
+        );
+}
+
+function get_author22_id(abc)
+{
+	var a_id=document.getElementById("author_id2").value
+
+	
+	$.post("/update_author_details",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			alert(data)
+			arr=data.split("~")	
+			document.getElementById("a_id").value=arr[0]
+			document.getElementById("a_name").value=arr[1]
+			document.getElementById("a_email").value=arr[2]
+			document.getElementById("a_designation").value=arr[3]
+			document.getElementById("a_city").value=arr[4]
+			document.getElementById("a_country").value=arr[5]
+			document.getElementById("a_department").value=arr[6]			
+			 $('#myModal_2').modal('show');
+        }
+        );
+}
+
+function get_author33_id(abc)
+{
+	var a_id=document.getElementById("author_id3").value
+	
+	
+	$.post("/update_author_details",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			alert(data)
+			arr=data.split("~")	
+			document.getElementById("a_id").value=arr[0]
+			document.getElementById("a_name").value=arr[1]
+			document.getElementById("a_email").value=arr[2]
+			document.getElementById("a_designation").value=arr[3]
+			document.getElementById("a_city").value=arr[4]
+			document.getElementById("a_country").value=arr[5]
+			document.getElementById("a_department").value=arr[6]			
+			 $('#myModal_2').modal('show');
+        }
+        );
+}
+
+function get_author44_id(abc)
+{
+	var a_id=document.getElementById("author_id4").value
+	
+	
+	$.post("/update_author_details",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			alert(data)
+			arr=data.split("~")	
+			document.getElementById("a_id").value=arr[0]
+			document.getElementById("a_name").value=arr[1]
+			document.getElementById("a_email").value=arr[2]
+			document.getElementById("a_designation").value=arr[3]
+			document.getElementById("a_city").value=arr[4]
+			document.getElementById("a_country").value=arr[5]
+			document.getElementById("a_department").value=arr[6]			
+			 $('#myModal_2').modal('show');
+        }
+        );
+}
+
+function get_author55_id(abc)
+{
+	var a_id=document.getElementById("author_id5").value
+	
+	
+	$.post("/update_author_details",
+        {
+          a_id:a_id
+        },
+		function(data,status){
+			alert(data)
+			arr=data.split("~")	
+			document.getElementById("a_id").value=arr[0]
+			document.getElementById("a_name").value=arr[1]
+			document.getElementById("a_email").value=arr[2]
+			document.getElementById("a_designation").value=arr[3]
+			document.getElementById("a_city").value=arr[4]
+			document.getElementById("a_country").value=arr[5]
+			document.getElementById("a_department").value=arr[6]			
+			 $('#myModal_2').modal('show');
+        }
+        );
+}
+
+
+
+function author_details_update(){
+var a_id=document.getElementById("a_id").value;
+var name=document.getElementById("a_name").value;
+var email=document.getElementById("a_email").value;
+var designation=document.getElementById("a_designation").value;
+<!-- var institute=document.getElementById("institute").value; -->
+var department=document.getElementById("a_department").value;
+var city=document.getElementById("a_city").value;
+var country=document.getElementById("a_country").value;
+
+	 $.post("/update_author_details_1",
+        {
+		  a_id:a_id.toString(),
+          name:name.toString(),
+		  email:email.toString(),
+		  designation:designation.toString(),
+		  <!-- institute:institute.toString(), -->
+		  department:department.toString(),
+		  city:city.toString(),
+		  country:country.toString()
+		  
+		 
+        },
+		function(data,status){
+		arr=data.split("~")	
+		var no=arr[0]
+		
+		if(no==document.getElementById("author_id1").value){
+		document.getElementById("author_1").value=arr[1]		
+		}
+		else if(no==document.getElementById("author_id2").value){
+		document.getElementById("author_2").value=arr[1]		
+		}
+		else if(no==document.getElementById("author_id3").value){
+		document.getElementById("author_3").value=arr[1]		
+		}
+		else if(no==document.getElementById("author_id4").value){
+		document.getElementById("author_4").value=arr[1]		
+		}
+		else if(no==document.getElementById("author_id5").value){
+		document.getElementById("author_5").value=arr[1]		
+		}
+		
+		
+		}       
+        );	
+
+
+
+}
+</script>														
+							<div class="form-group">
+								<label for="selector1" class="col-sm-2 control-label">Author</label> &nbsp&nbsp
+								<button type="button" class="btn-inverse btn" data-toggle="modal" data-target="#myModal_1">Add Author</button>									
+								</div>						
+								<div class="form-group mb-n" id="author_11" style="display:none" >
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Author 1</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" value="author_1" name="author_1" id="author_1" readonly="">
+										<input type="text" class="form-control1 input-lg" name="author_id1" id="author_id1" >
+									</div>
+									 <div class="col-sm-1">
+										<a id="" onclick="get_author11_id(this)"> 
+										<i class="fa fa-pencil" style="color:black"></i>
+										</a>
+																				 
+									</div>	
+									<div class="col-sm-1">
+										
+										<a id="" onclick="get_author1_id(this)" > 
+										<i class="fa fa-trash-o" style="color:black"></i>
+										</a> 
+										
+									</div>	 									
+								</div>
+								
+								 <div class="form-group mb-n" id="author_12" style="display:none">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Author 2</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="author_2" id="author_2" readonly="">
+										<input type="text" class="form-control1 input-lg" name="author_id2" id="author_id2" >
+									
+									</div>
+									<div class="col-sm-1">
+										<a onclick="get_author22_id(this)"> 
+										<i class="fa fa-pencil" style="color:black"></i>
+										</a>
+																				 
+									</div>	
+									<div class="col-sm-1">
+										
+										<a id="" onclick="get_author2_id(this)"> 
+										<i class="fa fa-trash-o" style="color:black"></i>
+										</a> 										 
+									</div>	
+								</div>
+								
+								<div class="form-group mb-n" id="author_13" style="display:none">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Author 3</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="author_3" id="author_3" readonly="">
+										<input type="text" class="form-control1 input-lg" name="author_id3" id="author_id3" >
+									
+									</div>
+									<div class="col-sm-1">
+										<a onclick="get_author33_id(this)"> 
+										<i class="fa fa-pencil" style="color:black"></i>
+										</a>
+																				 
+									</div>	
+									<div class="col-sm-1">
+										
+										<a id="" onclick="get_author3_id(this)"> 
+										<i class="fa fa-trash-o" style="color:black"></i>
+										</a> 										 
+									</div>	
+								</div>
+								
+								<div class="form-group mb-n" id="author_14" style="display:none">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Author 4</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="author_4" id="author_4" readonly="">
+										<input type="text" class="form-control1 input-lg" name="author_id4" id="author_id4" >
+									
+									</div>
+									<div class="col-sm-1">
+										<a onclick="get_author44_id(this)">
+										<i class="fa fa-pencil" style="color:black"></i>
+										</a>
+																				 
+									</div>	
+									<div class="col-sm-1">
+										
+										<a id="" onclick="get_author4_id(this)"> 
+										<i class="fa fa-trash-o" style="color:black"></i>
+										</a> 										 
+									</div>	
+								</div>
+								
+								<div class="form-group mb-n" id="author_15" style="display:none">
+									<label for="largeinput" class="col-sm-2 control-label label-input-lg">Author 5</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control1 input-lg" name="author_5" id="author_5" readonly="">
+										<input type="text" class="form-control1 input-lg" name="author_id5" id="author_id5" >
+									
+									</div>
+									<div class="col-sm-1">
+										<a onclick="get_author55_id(this)">
+										<i class="fa fa-pencil" style="color:black"></i>
+										</a>
+																				 
+									</div>	
+									<div class="col-sm-1">
+										
+										<a id="" onclick="get_author5_id(this)"> 
+										<i class="fa fa-trash-o" style="color:black"></i>
+										</a> 										 
+									</div>	
+								</div>	 
+								
+							
+								
+
+

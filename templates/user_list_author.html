@@ -1,0 +1,91 @@
+{% extends 'user_base.html' %}
+{% block head %}
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+table
+{	
+	text-align: center;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style>
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				
+				</h2>
+		    </div>
+
+
+	<div class="grid-form">
+ 		
+ <div class="grid-form1">
+	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+	<th style="text-align: center; width:10%">Sr.No</th>
+ 		<th style="text-align: center;">Papers</th>
+ 	</tr>
+ 	
+ 	{% for item in k %}
+ 	<tr>
+	<td style="text-align: center;"></td>
+		<td>
+			<ul style="text-align:left;list-style: none;">
+				<!-- <li>
+					  <a href="{{ url_for('paper_view_click' , p_id=item['pap_id'],mode='Your Paper' ) }}">
+					  Title:&nbsp {{item['topic']}}</a>
+				</li> -->
+				<li>Name:&nbsp {{item['name']}}</li>
+				<li>Department:&nbsp {{item['department']}}</li>
+				<li>Institute:&nbsp {{item['institute']}}</li>
+				
+			</ul>
+		</td>
+	 <td style="width:10%">
+	<a href="{{url_for('user_update_author', a_id=item['id'])}}">
+	<i class="fa fa-pencil" aria-hidden="true"></i> </a>
+	&nbsp
+	<a href="{{url_for('user_delete_author', id=item['id'])}}">
+	<i class="fa fa-trash-o" aria-hidden="true"></i> </a>
+	
+	
+	
+       <!-- <a href="{{url_for('delete_editorial_1', id=item['id'])}}"><span class="fam">Delete</span></a>
+   
+	   <a href="{{url_for('delete_editorial_1', id=item['id'])}}"><span class="fam">Update</span></a>
+      --></td>
+	
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+
+  </div>
+
+ 	</div> 
+
+{% endblock %}
+

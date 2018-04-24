@@ -1,0 +1,168 @@
+{% extends 'home_base.html' %}
+{% block head %}
+<head>
+<script>
+function add_data(){
+	
+	var email=document.getElementById("email1")
+	var password=document.getElementById("pass1")
+	var role1=document.getElementById("role1")
+	var role2=document.getElementById("role2")
+	var rolex;
+	if(role1.checked)
+	{
+		rolex=role1.value;
+	}
+	else{
+		rolex=role2.value;
+	}
+	 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	if(email.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter EmailID"
+		$('#myModal11').modal('show');
+	}
+	else if(reg.test(email.value) == false)
+	{
+		document.getElementById("msg").innerHTML="Please Enter Valid EmailID"
+		$('#myModal11').modal('show');
+	}
+	else if(password.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Password"
+		$('#myModal11').modal('show');
+	}
+	else{
+		
+		$.post("/signin_1",
+        {
+          email:email.value,
+		  password:password.value,
+		  role:rolex
+        },
+		function(data,status){
+			if(data=="wrong")
+			{
+				document.getElementById("msg").innerHTML="Unauthorized user"
+				$('#myModal11').modal('show');
+			}
+			else{
+				document.form1.submit();
+			}
+			
+        }
+        );
+	}	
+	
+}
+
+</script>
+{% endblock %}
+</head>
+{% block body %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+	<!-- Modal1 -->
+	<div class="modal-dialog">
+		<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4>Signin</h4>
+						
+				
+<div class="container">
+<form action="{{ url_for('temp_1') }}" method="post" name="form1">
+
+<div class="col-md-8 form-group ">
+		  <!-- <label>Member</label> &nbsp;&nbsp; -->
+		  <input type="radio" name="role" value="user"  id="role1" checked>User</input>
+		  &nbsp;&nbsp;<input type="radio" value="expert" id="role2" name="role">Reviewer</input>
+		</div>
+
+
+
+
+<div class="input-group" style="width:45%">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+  <input id="email1" type="text" class="form-control" name="email" placeholder="Email">
+</div>
+
+
+<div class="input-group" style="width:45%">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+  <input id="pass1" type="password" class="form-control" name="password" placeholder="Password">
+</div>
+
+<input type="button" class="btn btn-primary" value="Signin" onclick="add_data()" > 
+</br><hr class="style17"></br></br>
+<div class="input-group">
+<a href="/google" class="fa fa-google  fa-2x" style="color:white;background: #dd4b39;padding:10px"></a>
+</div> 
+
+<div class="input-group"><p>Do not have an account?</p>
+	<a href="/user_sign_up">Signup</a>		
+ </div>
+   
+ <div class="input-group"><a  href="/password">Forget Password?</a>	
+  </div>  
+  
+  
+</form>
+
+</div>							
+						</div>
+			</div>
+	</div>
+</div>
+<br />
+	<!-- start-->
+	<div>
+		<div class="container">
+		<div>
+				<h3 class="tittle">List of Reviewers</h3>
+					<div class="border"></div>
+				</div> </br>
+			
+	<div class="bs-docs-example">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+						  <th>No</th>
+						  <th>Name</th>
+						   <th>Skill</th>
+						    <th>Experience</th>
+						 
+						</tr>
+					</thead>
+					<tbody>
+						{% for i in arry %}
+						<tr>
+						  <td>1</td>
+						  <td>Prof. {{i['fname']}} &nbsp {{i['lname']}}</td>
+						  <td>{{i['skill']}}</td>
+						   <td>{{i['exp']}}
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+	</div>
+			</div>	
+   </br>
+   <div class="modal fade" id="myModal11" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	{% endblock %}

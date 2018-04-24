@@ -1,0 +1,5 @@
+{% for ii in k %}
+									<input type="checkbox" value="{{ii['email']}}" name="user_email" onchange="add1()" {% if ii['email']|string in tat %} 
+																										checked
+																										{% endif %}> &nbsp {{ii['fname']}} &nbsp {{ii['lname']}}  </input> <br />
+									{% endfor %}

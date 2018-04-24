@@ -1,0 +1,20 @@
+<div class="form-group">
+	<label for="selector1" class="col-sm-2 control-label">Paper</label>
+	<div class="col-sm-8">	
+		{% if x=='true' %}
+				No Paper Found
+			{% endif %}
+	<ul>	
+	{% for item1 in arr %}
+	<div class="checkbox-inline1" style="text-align:left"><label>
+	<input type="checkbox" name="papers_title" required="" value="{{item1['id']}}">&nbsp {{item1['title']}}</label></div>
+									
+	{% endfor %}
+	</ul>
+	
+	
+
+		
+		
+			</div>																																				
+			</div>	

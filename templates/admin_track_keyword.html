@@ -1,0 +1,13 @@
+								<div id="x">
+								<div class="form-group">
+									<label for="checkbox" class="col-sm-2 control-label">Keyword</label>
+									<div class="col-sm-8">&nbsp
+										{% for i in arr %}
+											<div class="checkbox-inline">
+											<label>
+											<input type="checkbox" name="key" value="{{i['id']}}"> {{i['name']}}</label></div>
+										{% endfor %}
+										
+									</div>
+								</div>
+								</div>

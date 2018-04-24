@@ -1,0 +1,73 @@
+
+{% extends 'user_base.html' %}
+{% block head %}
+<head>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+table
+{	
+	text-align: center;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style> 
+</head>
+{% endblock %}
+{% block body %}
+
+		    <div class="banner">
+		   
+				<h2>
+				<a href="">{{name}}</a>
+				
+				</h2>
+		    </div>
+			
+
+ 		
+ <div class="grid-form1">
+	<table border="1" style="overflow-x:auto;">
+ 	<tr>
+	<th style="text-align: center; width:10%">Sr.No</th>
+ 		<th style="text-align: center;">Papers</th>
+
+ 	</tr>
+ 	{% for item in k %}
+ 	<tr>
+	<td style="text-align: center;"></td>
+		<td>
+			<ul style="text-align:left;list-style: none;">
+				
+				<li>Title:&nbsp {{item['title']}}</li>
+				<li>Comment Date:&nbsp {{item['date']}}</li>
+				<li>Comment:&nbsp {{item['msg']}}</li>
+			</ul>
+		</td>	
+
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+
+  </div>
+
+ 	
+{% endblock %}
+
