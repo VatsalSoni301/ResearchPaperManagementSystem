@@ -40,15 +40,22 @@ var array = $.map(opts, function(elem) {
 	alert("You cannot add more than 4 authors")
  }
  else{
+	var select = document.getElementById('pauthor1');
+	select.options.length=1
+	a1=document.getElementById("a1");
+	a2=document.getElementById("a2");
+	a3=document.getElementById("a3");
+	a4=document.getElementById("a4");
+	a1.value='';
+	a2.value='';
+	a3.value='';
+	a4.value='';
+	var i=0;
+		
 	 if(array!='')
 	 {
 		//alert(array.length)
-		a1=document.getElementById("a1");
-		a2=document.getElementById("a2");
-		a3=document.getElementById("a3");
-		a4=document.getElementById("a4");
-		var i=0;
-		var select = document.getElementById('pauthor1');
+		
 		 for(i=0;i<array.length;i++)
 		 {
 			if(i==0)
@@ -195,15 +202,3 @@ var array = $.map(opts, function(elem) {
       </div>
       </div>  </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
